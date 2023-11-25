@@ -1,0 +1,1800 @@
+\documentclass[12pt, onecolumn]{article}
+\usepackage{amsmath,amsthm,amssymb,amstext,amsgen,amsbsy,amsopn,amsfonts,graphicx,abstract,epsfig,url,caption,fullpage,slashed}
+\renewcommand{\baselinestretch}{1}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{note}[1][Note]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{claim}[1][Claim]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{notation}[1][Notation]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+% \newarrow{Into} C--->
+% \newarrow{Dotsto} ....>
+
+
+\begin{document}
+\title{Notes on Donaldson-Witten theory and Seiberg-Witten Duality}
+\author{Tom Mainiero and Walter Tangarife}
+\date{}
+\maketitle
+
+\tableofcontents
+
+\section{Donaldson Theory: Pre-Witten}
+\subsection{Classification of (closed) Manifolds}
+We would like to classify all manifolds.   We must be careful as there are three categories to be concerned with:
+\begin{enumerate}
+\item Top$_{n}$ - Topological $n$-manifolds (morphisms: homeomorphisms)
+\item Diff$_{n}$ - Smooth $n$-manifolds (morphisms: diffeomorphisms)
+\item PL$_{n}$ - Piecewise linear $n$-manifolds (morphisms: piecewise linear maps)
+\end{enumerate}
+In general
+\begin{align*}
+\text{Diff}_{n} \rightsquigarrow \text{PL}_{n} \rightsquigarrow \text{Top}_{n}.
+\end{align*}
+For low dimensions there are unique PL and Diff structures for each topological manifold (e.g. if two surfaces are homeomorphic they are also diffeomorphic and vice versa): \footnote{Although, strictly speaking we should be careful here, these categories are not equivalent.  Loosely speaking, a theorem in one category may not hold in another.}
+\begin{equation*}
+\text{Top}_{n} \leftrightarrow \text{PL}_{n} \leftrightarrow \text{Diff}_{n} \text{, $n \leq 3$},
+\end{equation*}
+so the classification problem is the same.  Furthermore, for dimensions $\leq 6$ it was discovered that every PL structure is smoothable
+\begin{align*}
+\text{PL}_{n} \leftrightarrow \text{Diff}_{n} \text{, $n \leq 6$}
+\end{align*}
+
+\vspace{5mm}
+
+\noindent Sometimes full classification is a bit hard so we restrict ourselves to the building blocks: closed manifolds.  For dimensions $\leq 2$ the classification was known for quite some time.
+\begin{itemize}
+\item \textbf{1-manifolds}: The circle
+\item \textbf{2-manifolds}:
+\begin{itemize}
+\item Orientable: Genus $g$ surfaces, i.e. the connected sum of $g$ tori (handlebodies): $\#^gT^2=\overbrace{T^2 \# T^2 \# \cdots \# T^2}^{\text{$g$ times}}$
+\item Non-orientable: Genus $g$ surfaces summed with a cross-cap (projective space) $\#^gT^2 \# \mathbb{R}P^2$
+\end{itemize}
+\item \textbf{3-manifolds}: Thurston geometries and the geometrization conjecture (proven by Perelman).
+\item \textbf{4-manifolds and higher}: Algorithmically impossible (requires classifying all $\pi_{1}$ groups with finitely many generators and relations) $\Rightarrow$ restrict the classification to simply connected manifolds.
+\begin{itemize}
+\item In $n>4$ the Poincare conjecture holds for differentiable and topological $n$-manifolds and they are classified via surgery.
+\item 1982: Michael Freedman classified all closed, simply connected \textit{topological} 4-manifolds.
+\item 1983: Donaldson discovers an obstruction to smoothability of topological 4-manifolds.
+\end{itemize}
+\end{itemize}
+The rest of this talk will be concerned with differentiable, closed, simply connected, 4-manifolds.
+
+\subsection{Invariants}
+To help distinguish between different manifolds, one can construct computable ``invariants,'' e.g. quantities which only depend on the diffeomorphism (homeomorphism/PL isomorphism if we are working in Top/PL) type of the manifold.  Two manifolds are not diffeomorphic if their invariants differ.  These can be numbers, polynomials, etc. and the easily computable ones usually arise via some cohomology ring.  Examples include the characteristic numbers (chern classes, euler classes, etc.) and the characteristic numbers arising from them.
+
+\subsection{Cohomology and the Intersection Form}
+One important 4-manifold (topological) invariant is the intersection form.  Let $M$ be a closed, orientable, 4 manifold, $[M]$ its fundamental class, and $H^{\cdot}(M;\mathbb{Z})$ its cohomology (over $\mathbb{Z}$).  We then have a pairing
+\begin{align*}
+I:&  H^{2}(M;\mathbb{Z}) \times H^{2}(M; \mathbb{Z}) \rightarrow \mathbb{Z}
+\end{align*}
+with
+\begin{align*}
+(\alpha ,\beta) \mapsto (\alpha \smile \beta)\frown [M].
+\end{align*}
+Or in terms of differential forms,
+\begin{align*}
+I: H^{2}_{dR}(M) \times H^{2}_{dR}(M) \rightarrow \mathbb{R}
+\end{align*}
+with
+\begin{align*}
+I([\alpha],[\beta])=\int_{[M]}\alpha \wedge \beta
+\end{align*}
+for $\alpha$ and $\beta$ any differential form representatives of the cohomology classes $[\alpha]$ and $[\beta]$.  The cup-product is graded-commutative so $\sigma$ is a symmetric bilinear form, i.e. an inner product.
+
+
+\begin{remark}
+If $[\alpha]$ and $[\beta]$ lie in the image of $H^{2}(M;\mathbb{Z}) \hookrightarrow H^{2}_{dR}(M)$ (i.e. they are represented by differential forms which integrate to integers over 2-cycles) then $I$ coincides with the definition above and is valued in $\mathbb{Z}$.
+\end{remark}
+
+\begin{remark}
+By Poincar\'{e} duality:
+\begin{align*}
+H_{k}(M) \cong H^{n-k}(M)
+\end{align*}
+and every $k$-cycle has an associated $n-k$-form (we can construct this explicitly as a Thom class on a normal bundle).  In particular every $2$ cycle $[L]$ has a Poincar\'{e} dual 2-form $\eta_{L}$ so we can extend the definition of $I$ to 2-cycles.  Geometrically, then $I([L],[M])$ is the topological (oriented) intersection number between any two representatives of $[L]$ and $[M]$.  $I([L],[L])$ is geometrically the self-intersection number found by perturbing a rep of $[L]$ and viewing the intersection with the perturbation.
+\end{remark}
+
+If we assume $M$ is simply-connected, the homology groups of $M$ look like
+\begin{align*}
+H_{0}(M) \cong & \mathbb{Z}\\
+H_{1}(M) = &0\\
+H_{2}(M) \cong & \mathbb{Z}^{b_{2}}\\
+H_{3}(M) = &0\\
+H_{4}(M) \cong & \mathbb{Z}
+\end{align*}
+and the cohomology groups are given immediately by Poincar\'{e} duality.  $b_{2}$ is called the second betti number.  Hence, under choice of some basis in either (integer coefficient) homology or cohomology, $I$ is a $b_{2} \times b_{2}$ integer-valued matrix.  As $I$ is a symmetric matrix we can diagonalize it over $\mathbb{R}$ and signature of $I$ is defined to be
+\begin{align*}
+\sigma  = b_{+}-b_{-}
+\end{align*}
+where $b_{+}$ is the number of positive eigenvalues of $I$ and $b_{-}$ the number of negative eigenvalues.
+
+\begin{remark}
+Donaldson's 1983 paper used instantons and a cobordism technique to constrain the intersection forms arising for differentiable manifolds.
+\end{remark}
+
+\subsection{The Second Chern Class}
+Let $M$ be a closed, simply connected, orientable, manifold $P \rightarrow M$ be a principal $SU(2)$ gauge bundle with connection, $\rho:SU(2) \rightarrow Aut(V)$ the two-dimensional defining representation of $SU(2)$, and $E \rightarrow M$ the associated vector bundle: $E=P \times_{\rho} V$.  The connection on the principal bundle induces an $SU(2)$ connection $\nabla$ on $E$ with curvature form $F$.  In a local coordinate chart we can write $\nabla = d+A$ and $F_{\nabla}=dA+\frac{1}{2}[A \wedge A]$.  More explicitly, if $\sigma_{a}$ ($a=1,2,3$) are the standard Pauli matrices (spanning $\mathfrak{su}$(2)), in a local coordinate chart
+\begin{align*}
+A=&A_{\mu}dx^{\mu}\\
+F_{\nabla}=&\frac{1}{2}F_{\mu \nu}dx^{\mu} \wedge dx^{\nu}\\
+A_{\mu}=&A^{a}_{\mu}\sigma_{a}\\
+F_{\mu \nu}=&\partial_{\mu}A_{\nu}-\partial_{\nu}A_{\mu}+[A_{\mu},A_{\nu}].
+\end{align*}
+For each such rank-2 vector bundle $E$ we can associate the second chern number,
+\begin{align*}
+c_{2}(E)=&-\frac{1}{8\pi}\int_{M}Tr(F_{\nabla} \wedge F_{\nabla}) \in \mathbb{Z}\\
+=&-\frac{1}{8\pi}\int_{M}F^{a}_{\mu \nu}\tilde{F}^{\mu \nu}_{a}d^4x
+\end{align*}
+The second chern number is a topological invariant of the bundle $E$ and completely classifies all such rank-2 vector bundles. 
+
+\begin{notation}
+From now on we will write $F_{\nabla}$ as $F$ where the dependence on the connection is understood.  Furthermore, we will abuse notation and write $A$ in place of the (globally defined) connection $\nabla$ as per standard physics abuse.
+\end{notation}
+
+\begin{remark} Indeed, it is a remarkable theorem that the cohomology class $[F \wedge F] \in H^4_{dR}(M)$ is \textit{independent} of the connection chosen on our vector bundle $E$ and only depends on the isomorphism type (topology) of the vector bundle $E$.  Furthermore, this class lies in the image of $H^4(M;\mathbb{Z})$; so $c_{2}(E)$ is an integer that only depends on the isomorphism type of $E$, i.e. it only depends on the topological type of $E$.  For rank 2 vector bundles one can show all other chern numbers vanish and the vector bundle $E$ is uniquely determined by the integer $c_{2}(E)$.  The trivial bundle $E=M \times V$ has $c_{2}(E)=0$.
+\end{remark}
+
+\subsection{Instantons}
+\label{sec_instanton}
+Instantons are defined as the absolute minima of the Yang-Mills action.  Recall, the Yang-Mills action is defined as
+\begin{align*}
+S_{YM}[A]=\frac{1}{g_{YM}^2}\int \text{Tr}\left(F \wedge * F \right) =\int F^{a}_{\mu \nu}F^{a \mu \nu}.
+\end{align*}
+By the definition of the Hodge-star operator, on a Riemannian 4-manifold the operation $\text{Tr}\left(F \wedge * F \right)$ defines a pointwise norm on Lie-algebra valued 2-forms, i.e. for $\zeta,\eta \in \Lambda^2 T^*M \otimes \mathfrak{g}$, we have a norm
+\begin{align*}
+\|\eta\|  = \text{Tr}(\eta \wedge * \eta).
+\end{align*}
+In this notation we can write
+\begin{align*}
+S_{YM}[A]=\frac{1}{g_{YM}^2}\int \|F\|
+\end{align*}
+Furthermore, on $2$-forms the hodge-star operator $*$ squares to the identity $*^2=1$ (as opposed to Lorentzian signature where $*^2=-1$).  Hence, we can split $\Omega^{2}(M)$ into the $\pm 1$ eigenspaces of $*$ (self-dual and anti-self-dual forms):
+\begin{align*}
+\Omega^2(M) = \Omega^2_{+}(M) \oplus \Omega^{2}_{-}(M).
+\end{align*}
+this splitting extends to forms valued in vector bundles and is orthogonal with respect to the norm $\|\cdot\|$ and we may decompose $F$ with respect to this splitting
+\begin{align*}
+F=F_{+}+F_{-}.
+\end{align*}
+Thus,
+\begin{align*}
+S_{YM}[A]=& \frac{1}{g_{YM}^2}\int\left(\|F_{+}\|+\|F_{-}\| \right)
+\end{align*}
+while on the other hand
+\begin{align*}
+c_{2}(E)=&\frac{1}{8\pi^2}\int \text{Tr}(F \wedge F)\\
+=&\frac{1}{8\pi^2}\int \left(F_{+} \wedge * F_{+}-F_{-} \wedge *F_{-} \right)\\
+=&\frac{1}{8\pi^2}\int \left(\|F_{+}\| -\|F_{-}\| \right)
+\end{align*}
+Thus, we have lower bounds,
+\begin{align*}
+S_{YM}[A] \geq \frac{8\pi^2|c_{2}(E)|}{g_{YM}^2}.
+\end{align*}
+By the analysis above it is clear these bounds are saturated iff
+\begin{align}
+F=*F & \text{, if $c_{2}(E)>0$}\\
+F=-*F & \text{, if $c_{2}(E)<0$}.
+\label{eqn_instanton}
+\end{align}
+As a sanity check, it can be verified that such self-dual or anti-self dual curvature forms automatically satisfy the YM equations of motion $\nabla F =0$; these are first order equations in the connection $A$ (as opposed to the second order EOM $\nabla F=0$).  However, there is no guarantee that such first order equations have a solution on the bundle $E$ so there is no guarantee this topological lower bound is actually obtained.  In the situation of $SU(2)$ Yang-Mills, explicit non-trivial solutions for $c_{2}(E)=\pm 1$ on $S^3$ are known.
+
+\subsection{The Moduli Space of Instantons}
+If there exists and instanton solution on the vector bundle $E$, the generically there exists a whole moduli space of solutions on $E$:
+\begin{align*}
+\overline{{\cal M}_{E}}=\left \{A \in \text{Conn}(E):\text{$F=*F$ if $c_{2}(E)>0$, $F=-*F$ if $c_{2}(E)<0$} \right \} \subset \text{Conn}(E).
+\end{align*}
+Let ${\cal G}_{E}$ be the group of automorphisms of $E$ (gauge transformations) which acts naturally on $\text{Conn}(E)$.  As $F=\pm *F$ are gauge-invariant equations, then if $A$ is a solution, any element of the orbit $[A]={\cal G}_{E} \cdot A$ (connections gauge equivalent to $A$) is a solution.  Thus, the action of ${\cal G}_{E}$ restricts to ${\cal M}_{E}$ and the physically interesting moduli space, consisting of connections up to gauge transformations is
+\begin{align*}
+{\cal M}_{E}=\overline{{\cal M}_{E}}/{\cal G}_{E} \subset \text{Conn(E)}/{\cal G}_{E}.
+\end{align*}
+Equivalently,
+\begin{align*}
+{\cal M}_{E} = \left \{[A] \in \text{Conn}(E)/{\cal G}_{E}:\text{$F=*F$ if $c_{2}(E)>0$, $F=-*F$ if $c_{2}(E)<0$} \right \}.
+\end{align*}
+As this moduli space is cut out via smooth differential equations, we may expect that ${\cal M}_{E}$ is a smooth (finite dimensional) manifold with possible singularities where the smooth structure breaks down. This turns out to be the case and, furthermore, the singularities on the moduli space are well understood: singularities are isolated and occur at so-called \textit{reducible} connections described in appendix \ref{sec_redconn}. \footnote{An alternative but equivalent definition than the one provided in appendix \ref{sec_redconn} is as follows: A reducible connection $A$ is a connection such that the $SU(2)$ bundle $E$ can be split as a direct sum of $U(1)$-line bundles, $E=L_{1} \oplus L_{2}$ and $A$ decomposes as a direct sum of connections on these line bundles $A=\eta_{1} \oplus \eta_{2}$.}  For a beautiful exposition of this material see \cite{Freed_Uhlenbeck}.
+
+\vspace{5mm}
+
+\noindent The virtual dimension of such a moduli space can be computed from the index of an elliptic complex (called the instanton deformation complex) and can be shown to be
+\begin{align}
+\dim{\cal M}_{E} = 8|c_{2}(E)|-\frac{3}{2}\left(\chi_{M}+\sigma_{M}\right)
+\label{eqn_virtdim}
+\end{align}
+where $\chi_{M}$ is the Euler-characteristic of the 4-manifold $M$ and $\sigma_{M}$ is its signature.  This dimension is \textit{virtual} in the sense that it is calculated as the dimension of some tangent space around a particular connection ${\cal A}$; however, for reducible connections $A$ (e.g. at singularities in the moduli space) the dimension of the tangent space jumps.  If there are no reducible connections on the moduli space then ${\cal M}_{E}$ is an honest smooth manifold whose dimension is the virtual dimension; this will be the case of primary interest.
+
+\begin{remark}
+We will concern ourselves mostly with the situation of anti-instantons, i.e. where $c_{2}(E)<0$ and the curvature form of an instanton is anti-self-dual.  These are the bundles on which the Donaldson polynomial invariants and the Donaldson series are constructed.  The following sections on Donaldson polynomial invariants and the Donaldson series will be restricted to such bundles.
+\end{remark}
+
+\subsection{The Donaldson Polynomial Invariants}
+\label{sec_DonaldsonPoly}
+\begin{definition}
+Let ${\cal C}_{E}=\text{Conn}(E)/{\cal G}_{E}$ and $d=\text{dim}({\cal M}_{E})$.
+\end{definition}
+Now take a 1-parameter family of metrics $g_{t},\,t \in [0,1]$ on $M$.  With the condition $b_{+}>1$, Donaldson was able to show that, for a generic family $g_{t}$, ${\cal M}_{E,g_{t}}$ contains no reducible connections and, hence, has no isolated singularities.  Furthermore, Donaldson showed that ${\cal M}_{E,g_{t}}$ defines a cobordism in ${\cal C}_{E}$ and hence
+\begin{align*}
+[{\cal M}_{E,g_{0}}]=[{\cal M}_{E,g_{1}}] \in H_{d}({\cal C}_{E}).
+\end{align*}
+Now ${\cal M}_{E,g}$ depends implicitly on the smooth structure placed on $M$ (via the instanton equations), as well as the arbitrary metric $g$.  However, if we choose $M$ s.t. $b_{+}>1$, Donaldson's observation shows that $[{\cal M}_{E,g}] \in H_{d}({\cal C}_{E})$ is, in fact, independent of the metric $g$ and depends solely on the smooth structure of $M$.  In other words, $[{\cal M}_{E,g}]$ is a topological (smooth) invariant that can help distinguish smooth manifolds.
+
+\vspace{5mm}
+
+\noindent At first sight $[{\cal M}_{E}]$ is a rather unruly object, living in the homology of an infinite dimensional space.  It would be nice if we could extract more manageable information out of this homology class so that we can easily compare invariants.  This is precisely the role of the Donaldson polynomial invariants.  To define them, we will choose a basis of generators for the homology of $M$, $H_{k}(M;\mathbb{R})$ ($\mathbb{Q}$ coefficients are also prevalent in the mathematics literature):
+\begin{align*}
+H_{0}(M;\mathbb{R})&=\left \langle x \right \rangle\\
+H_{2}(M;\mathbb{R})&=\left \langle \gamma_{1},\cdots,\gamma_{b_{2}} \right \rangle\\
+H_{4}(M;\mathbb{R})&=\left \langle z \right \rangle.
+\end{align*}
+Using an argument involving spectral sequences, Donaldson constructed a map
+\begin{align*}
+\mu: H_{k}(M;\mathbb{R}) \rightarrow H^{4-k}({\cal C}_{E};\mathbb{R})
+\end{align*}
+with $\mu(z)=1$ and $k=0,\cdots,4$.  It turns out that under wedge product $\text{im}(\mu)$ actually generates all of $H^*({\cal C}_{E};\mathbb{R})$ with no relations other than $\mu(z)=1$.  Hence, we have the bijective correspondences,
+\begin{align}
+H^*({\cal C};\mathbb{R}) \longleftrightarrow \text{Wedge products of $\left\{\mu(x),\mu(\gamma_{1}),\cdots,\mu(\gamma_{b_{2}})\right\}$} \longleftrightarrow \text{Formal polynomials in $\left\{x,\gamma_{1},\cdots,\gamma_{b_{2}}\right\}$}.
+\label{correspondence}
+\end{align}
+
+\begin{definition}
+The Donaldson polynomial invariant corresponding to the vector bundle $E$ is the map
+\begin{align*}
+Q_{M,E}:\mathbb{R}[x,\gamma_{1},\cdots,\gamma_{b_{2}}] \rightarrow \mathbb{R}
+\end{align*}
+such that for some polynomial $p \in \mathbb{R}[x,\gamma_{1},\cdots,\gamma_{b_{2}}]$
+\begin{align}
+p(x,\gamma_{1},\cdots,\gamma_{b_{2}}) \mapsto \int_{[{\cal M}_{E,g}]}p(\mu(x),\mu(\gamma_{1}),\cdots,\mu(\gamma_{b_{2}})).
+\label{eqn_Dpolyinvar}
+\end{align}
+where the formal products of homology classes in $p$ on the left hand side are thought of as wedge products of their images under $\mu$ on the right hand side according to the correspondence (\ref{correspondence}). \footnote{E.g if $p(x,\gamma)=x \gamma^2$ then $p(\mu(x),\mu(\gamma))=\mu(x)\wedge \mu(\gamma) \wedge \mu(\gamma)$.}
+\end{definition}
+
+
+\begin{remark}
+As long as $b_{+}>1$ the polynomial invariant $Q_{M,E}$ does not depend on the metric $g$ chosen (as implied by the notation) as $[M_{E,g}]$ does not depend on the metric $g$.  However, we can define $Q_{M,E,g}$ for the case $b_{+} = 1$ by integrating over $[M_{E,g}]$ for a chosen metric $g$.  In this situation we expect sudden ``jumps'' in $Q_{M,E,g}$ as $g$ is smoothly varied and singularities suddenly appear or disappear in $[M_{E,g}]$.  Since the introduction of Donaldson invariants, this jumping behavior is now better understood via ``wall-crossing formulae.''
+\end{remark}
+
+
+\begin{remark} Assume $p$ is a monomial (e.g. contains only one summand), then the integral in (\ref{eqn_Dpolyinvar}) vanishes unless the degree of $p(\mu(x),\mu(y_{1}),\cdots,\mu(y_{b_{2}}))$ as an element of $ {\cal H}^*({\cal C}_{E};\mathbb{R})$ is $d=\text{dim}({\cal M}_{E})$.  We emphasize that under the map $\mu$ an element of homological degree $k$ in $H_{k}(M)$ defines element of cohomological degree $4-k$ in $H^{4-k}({\cal C}_{E})$.  In particular $x$ maps to an element of degree $4$ and the $\gamma_{i}$ map to elements of degree $2$.
+\end{remark}
+
+\begin{remark}
+Because the vector bundle $E$ is uniquely specified by its second chern number $c_{2}(E) \in \mathbb{Z}$ which can be extracted from the virtual dimension in equation (\ref{eqn_virtdim}) we will just write $Q_{M,E}$ as $Q_{d}$ where $d= \dim(\mathcal{M}_{E}) \in \mathbb{Z}$.  Note, once again, we are restricting our attention to $c_{2}(E)<0$.
+\end{remark}
+
+\subsection{The Donaldson Series}
+\label{sec_Dseries}
+Note that there is a Donaldson polynomial invariant for each $SU(2)$ vector bundle $E$.  In 1993 Kronheimer and Mrowka combined all of these invariants into a single generating function:
+\begin{align*}
+D(\gamma)=\sum_{d \in {\cal A}}\left[\frac{Q_{2d}(\gamma^{d})}{d!}+\frac{Q_{2d+4}(x \gamma^{d})}{2d!} \right],
+\end{align*}
+where $\gamma \in H_{2}(M),\,x \in H^{0}(M)$ and
+\begin{align*}
+{\cal A}=\left\{d \in \mathbb{Z}: \text{$\exists$ an $SU(2)$ bundle $E$ with $c_{2}(E)<0$ and s.t. $d=\text{dim}({\cal M}_{E})$} \right\}.
+\end{align*}
+The form of this generating function simplifies if we impose the so-called simple-type condition on $M$.
+\begin{definition}
+A manifold $M$ satisfies the simple-type condition if
+\begin{align*}
+Q_{|p|+8}(x^2p)=4Q_{|p|}(p)
+\end{align*}
+for all polynomials $p \in \mathbb{R}[x,\gamma_{1},\cdots,\gamma_{b_{2}}]$, where $|p|$ indicates the degree of $p$.  Once again, degree is counted ``cohomologically,'' i.e. that is $x$ has degree $4$ (i.e. the degree of $\mu(x)$) and the $\gamma_{i}$ have degree 2.
+\end{definition}
+\begin{remark}
+It is conjectured that all closed, simply-connected 4-manifolds with $b_{+}>1$ are of simple-type.
+\end{remark}
+If $M$ has simple-type condition, the generating function defined above reduces to the form
+\begin{align*}
+D(\gamma)=&e^{I(\gamma,\gamma)}\left[r_{1}e^{K_{1}(\gamma)}+\cdots+r_{m}e^{K_{m}(\gamma)}\right],
+\end{align*}
+where
+\begin{itemize}
+\item $\gamma \in H_{2}(M;\mathbb{R})$,\\
+\item $I:H_{2}(M;\mathbb{R}) \times H_{2}(M;\mathbb{R}) \rightarrow \mathbb{R}$ is the intersection form,
+\item $r_{i} \in \mathbb{Q}$,\\
+\item $K_{i} \in H^{2}(M;\mathbb{R})$ with $K_{i}(\gamma)=K_{i} \frown \gamma=\int_{\gamma}K_{i} \in \mathbb{R}$ the natural pairing between cohomology and homology.
+\end{itemize}
+
+\subsection{Preliminary Remarks on Donaldson-Witten Theory}
+In 1988 Witten presented a paper reconstructing the Donaldson polynomial invariants via correlation functions in a supersymmetric topological quantum field theory.  The TQFT constructed is not explicitly independent of the metric (as in Schwarz-Type TQFTs, e.g. Chern-Simons theory) but metric independence holds for a special class of ``BRST-closed'' observables.  In modern terminology this is a cohomological-type TQFT (more facetiously, Witten constructed a Witten-type TQFT).  In particular, the correlation functions in this TQFT can be computed in the limit of zero coupling, where the path integral reduces to integration over instanton moduli space; these integrals are, in fact, the polynomial invariants $Q_{M,E}$.  In Witten's 1994 paper he computed correlation functions in the same theory which were identified with the Donaldson Series of Kronheimer and Mrowka.
+
+\section{Topological quantum field theory and Donaldson invariants}
+\subsection{Twisted $\mathcal{N}=2$ SYM}
+
+In 1988, Witten formulated a supersymmetric topological quantum field theory that allowed him to derive the Donaldson invariants \cite{Witten_1988}. In this section we will present the description of his work.
+
+\subsubsection{\label{pre} Preliminaries}
+
+Let us consider a four-dimensional orientable Riemannian smooth manifold $M$ with a metric $g_{\mu\nu}$. Let's suppose a theory contains a set of fields $\{\phi_i\}$  and the action is a functional of these fields $S(\phi)$. The vacuum expectation value of an arbitrary product of operators $\mathcal{O}_\mu(\phi_i)$ is defined by the functional integral
+\begin{equation}
+\langle\mathcal{O}_{\mu_1}\mathcal{O}_{\mu_2}\cdots\mathcal{O}_{\mu_p}\rangle=\int[D\phi_i]\mathcal{O}_{\mu_1}(\phi_i)\cdots\mathcal{O}_{\mu_p}(\phi_i)\,{\rm exp}(-S(\phi)). \label{vev-op}
+\end{equation}
+
+Suppose the action of the theory is invariant under certain symmetry generated by $Q$:
+\begin{equation}
+\delta S = -i\epsilon \cdot \{Q,S\}=0, \label{L-inv}
+\end{equation}
+where $Q$ is such that $Q^2=0$ and the energy-momentum tensor of the theory can be written as
+\begin{equation}
+T_{\mu \nu} = \{Q,\Lambda_{\mu \nu}\}, \label{T-comm}
+\end{equation} where $\Lambda_{\mu \nu}$ is some symmetric tensor (an operator that can be written as $\{Q,\mathcal{O}\}$ is known as ``BRST commutator"). There are several facts that follow from these assumptions.
+
+The first fact is that the expectation value for an operator of the form $\{Q,\mathcal{O}\}$ is zero. The argument to see this is the following: The integration measure $[D\phi_i]$ is invariant under the symmetry generated by $Q$, therefore 
+\begin{equation}
+Z_{\epsilon}(\mathcal{O})=\int [D\phi_i] {\rm exp}(\epsilon Q)\cdot [{\rm exp}(-S)\cdot\mathcal{O}]
+\end{equation} is independent of the infinitesimal parameter $\epsilon$. Using equation (\ref{L-inv}) and expanding the first exponential, we obtain that
+\begin{equation}
+Z_{\epsilon}(\mathcal{O})=\int [D\phi_i] {\rm exp}(-S)\cdot(\mathcal{O}+\epsilon\{Q,\mathcal{O}\}).
+\end{equation}
+ As $Z_{\epsilon}(\mathcal{O})$ is independent of $ \epsilon$, we conclude that
+\begin{equation}
+\int [D\phi_i] {\rm exp}(-S)\cdot(\epsilon\{Q,\mathcal{O}\})=\langle \{Q,\mathcal{O}\} \rangle = 0. \label{vac-1}
+\end{equation}
+In addition, we can see that if, for some operator $A$, $\{Q,A\}=0$, then for any $B$ it is true that $A\{Q,B\}=\{Q, A\,B\}$ and therefore
+\begin{equation}
+\langle A \{Q,B\} \rangle = \langle  \{Q,A\,B\} \rangle = 0. \label{col}
+\end{equation}
+
+The second fact comes from the fact that the energy-momentum tensor is a BRST commutator. The partition function of the theory is given by
+\begin{equation}
+Z=\int [D\phi_i] {\rm exp}(-S). 
+\end{equation} Let's consider an infinitesimal variation of the metric $g$ , thus the change of the action is 
+\begin{equation}
+\delta S=\frac{1}{2}\int_M\sqrt{g} \delta g^{\mu \nu} T_{\mu \nu},
+\end{equation} but from equation (\ref{T-comm}) we know that $T_{\mu \nu} = \{Q,\Lambda_{\mu \nu}\}$. Now, let's see how $Z$ changes:
+\begin{eqnarray}
+\delta Z &=& \int [D\phi_i] {\rm exp}(-S)\cdot \left(-\delta S\right)\nonumber \\
+&=& -\int [D\phi_i] {\rm exp}(-S)\cdot \{Q, \int_M\sqrt{g} \delta g^{\mu \nu} \Lambda_{\mu \nu}\} \nonumber \\
+&=&- \langle \{Q, \int_M\sqrt{g} \delta g^{\mu \nu} \Lambda_{\mu \nu}\}\rangle = 0, \label{z-inv}
+\end{eqnarray} where we used equation (\ref{vac-1}) in the last step. Therefore, the partition function $Z$ is a topological invariant. 
+
+Now, let us examine what happens with non-vanishing expectation values of the form
+\begin{equation}
+ Z(\mathcal{O}) = \langle \mathcal{O} \rangle = \int [D\phi_i] {\rm exp}(-S)\cdot(\mathcal{O})
+\end{equation} under a change in the metric.
+\begin{eqnarray}
+\delta_g  Z(\mathcal{O})& =& \int [D\phi_i] {\rm exp}(-S)\cdot(\delta_g S\cdot\mathcal{O}+\delta_g \mathcal{O})\nonumber \\
+&=& \int [D\phi_i] {\rm exp}(-S)\cdot\left(-\frac{1}{2}\{Q, \int_M\sqrt{g} \delta g^{\mu \nu} \Lambda_{\mu \nu}\}\cdot \mathcal{O}+\delta_g \mathcal{O}\right).
+\end{eqnarray} This equation vanishes if: first, $\{Q, \mathcal{O}\}=0$ so the first term is zero according to equation (\ref{col}); second, if $\delta_g \mathcal{O}=\{Q,\rho\} \,\,\,{\rm or}\,\,0$ for some $\rho$. But we must notice that $ Z(\mathcal{O}) =0$ if, for some $\rho'$, $\mathcal{O}=\{Q,\rho'\}$. Therefore, topological invariants of the theory will be given by those operators for which $\{Q, \mathcal{O}\}=0$ and $\delta_g \mathcal{O}=\{Q,\rho\}$  modulo those such that $\mathcal{O}=\{Q,\rho\}$.
+
+\subsubsection{$\mathcal{N}=2$ Supersymmetric Yang-Mills}
+Witten came up with a relativistic covariant quantum field theory, on a Riemannian manifold $M$, containing the following fields: $A_\mu^a$, $\psi^a_\mu$, $\chi_{\mu\nu}^a$.  $A_\mu^a$ is a Lie algebra valued one form, $\mu=1\ldots4$ and $a$ runs over the generators of the gauge group $G$.  $\psi^a_\mu$ is an one form and $\chi^a_{\mu\nu}$ is a self-dual two form ($\chi^a_{\mu\nu}=\frac{1}{2}\epsilon_{\mu\nu\gamma\delta}\chi^{\gamma\delta a}$). These fields are supplemented by the fermionic zero form $\eta^a$ and the bosonic zero forms $\phi^a$ and $\lambda^a$.  With this field content, the action 
+\begin{eqnarray}
+S_0&=&\int_M d^4x\,{\rm Tr}[\frac{1}{4}F_{\mu\nu}F^{\mu\nu}+\frac{1}{2}\phi D_\mu D^\mu \lambda-i \eta D_\mu\psi^\mu+i(D_\mu\psi_\nu)\chi^{\mu\nu}\nonumber\\&&-\frac{i}{8}\phi[\chi_{\mu\nu},\chi^{\mu\nu}]- \frac{i}{2}\lambda[\psi_\mu,\psi^\mu] ] \label{L}
+\end{eqnarray}
+is invariant under the transformation
+\begin{eqnarray}
+\delta A_\mu=i \epsilon \psi_\mu,\,\,\,\,\,\delta \phi = 0,\,\,\,&&\,\delta \lambda=2i \epsilon \eta, \,\,\,\,\, \delta \eta = \frac{1}{2}\epsilon[\phi,\lambda], \nonumber \\
+\delta \psi_\mu=-\epsilon D_\mu \phi,\,\,\,\,\,&& \delta \chi_{\mu\nu}= \epsilon(F_{\mu\nu}+\frac{1}{2}\epsilon_{\mu\nu\gamma\delta}F^{\gamma\delta}),\label{susy}
+\end{eqnarray}
+and also it is invariant under a ``grading" $U$ for $(A, \phi, \lambda, \eta, \psi, \chi)$: $$(0, 2, -2, -1, 1, -1).$$
+
+Let's call $\mathcal{Q}$ the generator of the symmetry (\ref{susy}), it has the property $\mathcal{Q}^2=0$. Then, the variation of an operator $\mathcal{O}$ under this symmetry is 
+\begin{equation}
+\delta \mathcal{O} = -i\epsilon \cdot \{\mathcal{Q},\mathcal{O}\}. \label{transf}
+\end{equation}
+Notice that functional of the form $\{\mathcal{Q},\mathcal{O}\}$ is also $\mathcal{Q}$-invariant and it can be added to the action without spoiling the mentioned symmetry \footnote{There is a subtlety: To prove that $\mathcal{Q}^2=0$ we have to use the equation of motion for $\chi$, therefore $\chi$ should not appear in $\mathcal{O}$.}. Also, $\mathcal{O}$ should be gauge invariant. The operator that respects all the symmetries is $\mathcal{O}=\frac{1}{4}{\rm Tr}([\phi,\lambda]\eta)$. Thus, we can add to $S_0$ the term
+\begin{equation}
+S_1=-\int d^4x\{\mathcal{Q},\mathcal{O}\}=-\int d^4x {\rm Tr} \left[ \frac{i}{2}\phi [\eta,\eta] +\frac{1}{8}[\phi,\lambda]^2\right], \label{L1}
+\end{equation} where the global minus is chosen for simplicity. The the actual action that will be use is 
+\begin{equation}
+ S = S_0+S_1. \label{L12}
+\end{equation}
+
+Now, let's consider the field content in $\mathcal{N}=2$ supersymmetric Yang-Mills theory. For the following argument we will consider $M= \mathbb{R}^4$. The global group is $$H=SU(2)_L\times SU(2)_R\times SU(2)_I\times U(1)_U,$$ where the first two factors correspond to the rotation group in $\mathbb{R}^4$ and the last two denote a global internal symmetry. Under $H$, the supersymmetry generators transform like:
+\begin{equation}
+Q^i_\alpha \longrightarrow  (1/2,\,0\,1/2)^{-1},\,\,\,\,\bar{Q}_{i\,\dot{\alpha}} \longrightarrow  (0,\,1/2\,1/2)^{1};
+\end{equation} 
+and the fields transforms as follows:
+\begin{eqnarray}
+{\rm Gauge\,\, vectors}\,\,\,A_{\alpha \dot{\alpha}} &\sim & (1/2,\,1/2,\,0)^0, \nonumber \\
+{\rm fermions\,\,}\,\,\,\lambda_{\alpha\, i} &\sim & (1/2,\,0,\,1/2)^{1}, \nonumber \\
+{\rm \,\,\,\,\,\,\,\,\,}\bar{\lambda}_{\dot{\alpha}}^j &\sim & (0,\,1/2,\,1/2)^{-1}, \\
+{\rm spinless\,\,bosons\,\,}\varphi &\sim & (0,\,0,\,0)^{-2}, \nonumber \\
+{\rm \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,}\varphi^* &\sim & (0,\,0,\,0)^{2}. \nonumber 
+\end{eqnarray}
+
+Now, let's replace $SU(2)_L\times SU(2)_R\times SU(2)_I$ by $SU(2)_L\times SU(2)'_R$, where $SU(2)'_R$ is the diagonal sum of $SU(2)_R$ and $SU(2)_I$. Then under the new symmetry $SU(2)_L\times SU(2)'_R\times U(1)$:
+
+\begin{eqnarray} 
+(1/2,\,1/2,\,0)^0 &\longrightarrow & (1/2,1/2)^0, \nonumber \\
+(1/2,\,0\,1/2)^{1} &\longrightarrow & (1/2,1/2)^1, \nonumber \\
+(0,\,1/2,\,1/2)^{-1} &\longrightarrow & (0,1)^{-1}\oplus(0,0)^{-1}, \\
+(0,\,0,\,0)^{-2}&\longrightarrow &(0,\,0)^{-2},\nonumber \\
+(0,\,0,\,0)^{2}&\longrightarrow &(0,\,0)^{2}.\nonumber 
+\end{eqnarray}
+
+This is precisely the way in which the fields in the action (\ref{L12}) transform: $A_\mu$, $\phi$ and $\lambda$ transform as $(1/2,1/2)^0$, $(0,0)^{2}$ and $(0,0)^{-2}$, respectively. On the other hand, $\psi_\mu$, $\chi_{\mu\nu}$ and $\eta$ transform as $(1/2,1/2)^1$, $(0,1)^{-1}$ and $(0,0)^{-1}$. Therefore, in $\mathbb{R}^4$, such a action is the action for ``twisted" $\mathcal{N}=2$ Supersymmetric Yang-Mills, where the ``twist" makes reference to the exotic action pf the rotation group. In this twisted SUSY, the generators transform as $(1/2,1/2)^{-1}\oplus(0,1)^{1}\oplus(0,0)^1$ where the Lorentz singlet is the supercharge $\mathcal{Q}$ we used above. This, we can say that the action (\ref{L12}) is supersymmetric for $M=\mathbb{R}^4$; however, it can be shown that it is also supersymmetric when $M$ is a more general orientable Reimannian manifold.
+
+The next step is to compute the energy-momentum tensor defined by 
+\begin{equation}
+\delta_{g} S=\frac{1}{2}\int \sqrt{g}g^{\mu\nu}T_{\mu \nu},
+\end{equation}
+when $g^{\mu \nu}\rightarrow g^{\mu \nu}+\delta g^{\mu \nu}$. It's is important to note that as the antisymmetric tensor $\chi_{\mu\nu}$ is subject to self-duality, a variation $\delta g^{\mu \nu}$ of the metric must be accompanied by  
+\begin{equation}
+\delta \chi_{\mu \nu}= \frac{1}{2}\epsilon_{\mu \nu \gamma \delta}\delta g^{\gamma \gamma '} \delta g^{\delta \delta '}\chi_{\gamma '\delta '}-\frac{1}{8}(\delta g^{\sigma \tau}g_{\sigma \tau})\epsilon_{\mu \nu \gamma \delta}g^{\gamma \gamma '} \delta g^{\delta \delta '}\chi_{\gamma '\delta '}. 
+\end{equation}
+Thus, the energy-momentum tensor is given by
+\begin{eqnarray}
+T_{\mu \nu} &=& {\rm Tr} [(F_{\mu \sigma}F_\nu^\sigma-(1/4)g_{\mu \nu}F^2)+\frac{i}{2}[D_{[ \mu} \psi_{\sigma ]}\chi_\nu^\sigma + (\mu\leftrightarrow \nu) -\frac{1}{2} g_{\mu \nu}D_{[\lambda} \psi_{\sigma]}\chi^{\lambda\sigma} \nonumber\\&& -\frac{1}{2}(D_{\{\mu}D_{\nu\}}\lambda-g_{\mu \nu} D_\sigma \phi D^\sigma \lambda) -i (D_{\{\nu} \eta \,\psi_{\mu\}}-g_{\mu \nu} D_\sigma \eta \,\psi^\sigma) \nonumber \\&& -2i(\lambda \psi_\mu\,\psi_\nu -\frac{1}{2}g_{\mu \nu} \lambda \psi^2 )+\frac{i}{2}g_{\mu \nu} \phi [\eta,\eta]+\frac{1}{8}g_{\mu \nu}[\phi, \lambda]^2], \label{T}
+\end{eqnarray}
+with the conservation property $$ D_\mu T^{\mu \nu} = 0.$$
+Another feature of this tensor is that its trace is total divergence
+\begin{equation}
+T^\mu_\mu=D_\mu R^\mu,
+\end{equation} with 
+\begin{equation}
+R^\mu={\rm Tr}[\lambda D^\mu \phi - 2 i\,\eta\,\psi^\mu].
+\end{equation}
+This implies that the action is invariant under a global rescaling of the metric $\delta g^{\mu \nu}= w g^{\mu \nu}$:
+\begin{equation}
+\delta S=\frac{1}{2}\int \sqrt{g}\delta g^{\mu \nu} T_{\mu \nu} = \frac{w}{2}\int \sqrt{g}g^{\mu \nu} T_{\mu \nu}=\frac{w}{2}\int \sqrt{g} D_\mu R^\mu = 0.
+\end{equation}
+
+
+Now, let us take a look to the energy-momentum tensor in equation (\ref{T}); it can be shown that this tensor is a BRST commutator
+
+\begin{equation}
+T_{\mu \nu} = \{\mathcal{Q},\lambda_{\mu \nu}\},
+\end{equation}
+ where
+\begin{eqnarray}
+\lambda_{\mu \nu} &=& \frac{1}{2}{\rm Tr}(F_{\mu \sigma}\chi_{\nu}^\sigma+(F_{\nu \sigma}\chi_{\mu}^\sigma-\frac{1}{2}g_{\mu \nu}F_{\sigma\tau}\chi^{\sigma\tau}) \nonumber \\
+&&+\frac{1}{2}{\rm Tr}(\psi_{\{\mu} D_{\nu\}} \lambda -g_{\mu \nu}\psi_{\sigma} D_{\sigma}\lambda)+\frac{1}{4}g_{\mu \nu}{\rm Tr}(\eta[\phi,\lambda]). 
+\end{eqnarray} This is a remarkable fact that will play a really important role when finding the topological invariants, as it can be guessed from the preliminary section.
+
+If we add to the action $S$ the topological invariant $$\frac{1}{4}\int_M\sqrt{g}\,{\rm Tr}F_{\mu\nu}\,\tilde{F}^{\mu \nu},$$ we find that the new action $S'$ can be written as 
+\begin{equation}
+S'=\{\mathcal{Q},V\} \label{L-comm}
+\end{equation} with 
+\begin{equation}
+ V=\frac{1}{4}{\rm Tr}F_{\mu\nu}\chi^{\mu \nu}\frac{1}{2}{\rm Tr}\psi_\mu D^\mu \lambda-\frac{1}{4}{\rm Tr}(\eta[\phi,\lambda]).
+\end{equation} 
+ 
+\subsubsection{Topological invariants}
+ 
+Now we will consider the path integral representation for some topological invariants. From section \ref{pre}, we know that since the energy-momentum tensor is a BRST commutator, the partition function 
+\begin{equation}
+Z=\int [DX] {\rm exp}(-S'/g_{YM}^2) 
+\end{equation} is a topological invariant (see equation \ref{z-inv}). In the previous equation, $g_{YM}$ is the gauge coupling constant and the integration measure $DX$ is the abbreviation of the integration over the field content $(A, \phi, \lambda,\eta,\psi,\chi)$. 
+
+As a consequence of equation (\ref{L-comm}), $Z$ is also independent of the coupling $g_{YM} \neq 0$:
+\begin{eqnarray}
+\delta Z&=& \delta\left( -\frac{1}{g_{YM}}^2\right) \int [DX] {\rm exp} (-S'/g_{YM}^2)\cdot S' \nonumber \\
+&=& \delta\left( -\frac{1}{g_{YM}^2}\right) \int [DX] {\rm exp} (-S'/g_{YM})\cdot \{\mathcal{Q},V\} \nonumber \\ &=& \delta\left( -\frac{1}{g_{YM}^2}\right)\langle \{\mathcal{Q},V\} \rangle = 0.
+\end{eqnarray} where we used again equation (\ref{vac-1}).
+
+Thus, in the limit of very small coupling constant, the path integral in the partition function is dominated by classical minima. For the gauge field $A$, the action is 
+\begin{equation}
+S'_A=\frac{1}{4}\int_M \sqrt{g}\,{\rm Tr}(F^2+F\tilde{F}) =\frac{1}{8}\int_M \sqrt{g}\,{\rm Tr}(F+\tilde{F})^2.
+\end{equation} 
+
+The minima for this action are given by the equation
+\begin{equation}
+F_{\mu \nu}= - \tilde{F}_{\mu \nu}.
+\end{equation} Solutions to this equation are called (anti)instantons.  If they exist, instantons have a moduli space $\mathcal{M}$ whose ``formal" dimension is given by (assuming $G=SU(2)$)
+
+\begin{equation} 
+d(\mathcal{M})=c_2(E)-\frac{3}{2}(\chi(M)+\sigma(M)),
+\end{equation} where $c_2(E)$ is the instanton number, $\chi(M)$ is the Euler characteristic of $M$ and $\sigma(M)$ is the signature of $M$. 
+
+If $d(\mathcal{M})>0$, other topological invariants will be given by those operators for which $\{\mathcal{Q}, \mathcal{O}\}=0$ and $\delta_g \mathcal{O}=\{\mathcal{Q},\rho\}$  modulo those such that $\mathcal{O}=\{\mathcal{Q},\rho\}$, as explained in section \ref{pre}. The first operator that we find that is BRST invariant is $\phi$: $$\{\mathcal{Q}, \phi\}=0,$$ it is independent of the metric and is not a BRST commutator. The lowest order gauge invariant term that we can write is ${\rm Tr} \phi^2$; for $SU(2)$ this is the only independent gauge invariant polynomial in $\phi$, and hence the first topological invariant is 
+\begin{equation} 
+\mathcal{O}^{(0)}(x)=\frac{1}{8\pi^2}{\rm Tr} \phi^2. \label{O-0}
+\end{equation}
+Thus, we have a first example of topological correlation function
+\begin{equation}
+\langle \mathcal{O}^{(0)}(x_s)\mathcal{O}^{(0)}(x_s)\ldots\mathcal{O}^{(0)}(x_s)\rangle.
+\end{equation}
+This correlation function is independent of the metric and of the choice of $x_1, \ldots, x_S$; indeed, if we differentiate $\mathcal{O}$ with respect to the coordinates, we find 
+\begin{equation}
+\frac{\partial}{\partial x^\mu}\mathcal{O}^{(0)} =\frac{\partial}{\partial x^\mu}\left(\frac{1}{8\pi^2}{\rm Tr} \phi^2\right)=\frac{1}{4\pi^2}{\rm Tr}\phi D_\mu \phi = i\{\mathcal{Q},{\rm Tr}\frac{1}{4\pi^2}\phi \psi_\mu\}.\label{dO}
+\end{equation}
+If  we define a new operator $\mathcal{O}^{(1)}$ as 
+\begin{equation} 
+\mathcal{O}^{(1)}(x)=\frac{1}{4\pi^2}{\rm Tr} \phi\psi_\mu dx^\mu, \label{O-1}
+\end{equation} then we can write equation(\ref{dO}) as 
+\begin{equation}
+d\mathcal{O}^{(0)}=\{\mathcal{Q},\mathcal{O}^{(1)}\}. 
+\end{equation} 
+
+If we continue this repeat this process recursively, we find 
+\begin{eqnarray}
+d\mathcal{O}^{(1)}=i\{\mathcal{Q},\mathcal{O}^{(2)}\},\,\,\,&&\,\,\, d\mathcal{O}^{(2)}=i\{\mathcal{Q},\mathcal{O}^{(3)}\} \nonumber \\
+d\mathcal{O}^{(3)}=i\{\mathcal{Q},\mathcal{O}^{(4)}\},\,\,\,&&\,\,\, d\mathcal{O}^{(4)}=0,
+\end{eqnarray} with 
+\begin{eqnarray}
+\mathcal{O}^{(2)}&=&\frac{1}{4\pi^2}{\rm Tr} (\phi F_{\mu\nu} - i \lambda_\mu\lambda_\nu)dx^\mu\wedge dx^\nu, \nonumber \\ \mathcal{O}^{(3)}&=&\frac{i}{2\pi^2}{\rm Tr} \psi_\mu F_{\nu\sigma}dx^\mu\wedge dx^\nu\wedge dx^\sigma, \nonumber \\ \mathcal{O}^{(4)}&=&-\frac{1}{8\pi^2}{\rm Tr}F_{\mu\nu}F_{\sigma \tau}dx^\mu\wedge dx^\nu\wedge dx^\sigma dx^\tau.
+\end{eqnarray}
+
+If $\Sigma$ is a $k$-dimensional submanifold (or a $k$-dimensional homology cycle), the integral 
+\begin{equation}
+I(\Sigma)=\int_\Sigma \mathcal{O}^{(k)}
+\end{equation} is BRST invariant:
+\begin{equation}
+\{\mathcal{Q},I\}=\int_\Sigma\{\mathcal{Q},\mathcal{O}^{(k)}\}=\int_\Sigma d \mathcal{O}^{(k-1)} = 0.
+\end{equation}
+
+In simply connected manifolds, $k$-dimensional homology cycles exist only for $k=0,\,2,\,4.$ For $k=0$, $\Sigma$ is just  a point $x$ in $M$ and $I(\Sigma)= \mathcal{O}^{(0)}$ which we will call just $\mathcal{O}$. For $k=4$, $\Sigma=M$ and $I(M)=\int_M{Tr}F \wedge F $ is the instanton number. For $k=2$, let us denote  $\frac{1}{4\pi^2}{\rm Tr} (\phi F_{\mu\nu} - i \lambda_\mu\lambda_\nu)$ as $Z_{\mu\nu}$ and $\Sigma\subset M$ is an oriented surface on $M$. From now, we will call $I(\Sigma)$ the integral for $k=2$:$$I(\Sigma) =\int_\Sigma Z_{\mu\nu}d\sigma^{\mu\nu}.$$ Thus, for $SU(2)$,the Donaldson invariants of smooth four-manifolds are the correlation functions 
+\begin{equation}
+\langle \mathcal{O}(x_1)\ldots\mathcal{O}(x_r)I(\Sigma_1)\ldots I(\Sigma_s)\rangle.
+\end{equation} These were studied by Witten in 1994 \cite{Witten_1994}.
+
+
+
+
+
+\section{Donaldson Invariants as Correlation Functions}
+A general correlation function in our theory takes the form
+\begin{align*}
+Z[{\cal O}]=\int DA D\psi D\eta D\chi D\lambda D\varphi e^{-S_{DW}[A,\psi,\cdots]/g_{YM}^2} {\cal O}
+\end{align*}
+where $S_{DW}$ is the (chern number modified) action defined previously (where it was called $S'$).  Our correlation functions are invariant under change of the coupling, $\delta_{g_{YM}}Z[{\cal O}]=0$, so we can compute the correlation function above in the limit $g_{YM} \rightarrow 0$, e.g. we can extract the $O(g_{YM}^{0})=O(1)$ terms in the saddle-point approximation to obtain an exact answer.  Via the usual saddle-point approximation $Z[{\cal O}]$ then reduces to an integral over the moduli space ${\cal M}_{\text{full}}$ of classical configurations that minimize the action (``zero-modes'') as well as an integral over quadratic fluctuations around each of these configurations.  Symbolically,
+\begin{align}
+Z[{\cal O}]=\int_{{\cal M_{\text{full}}}}dX e^{-S_{DW}[X]/g_{YM}^2} \int DZ_{X} \exp\left[-Z_{X}^{a}\left(\frac{\partial^2 S_{DW}}{\partial F^{a} \partial F^{b}}\right)_{F=X}Z_{X}^{b}\right]{\cal O}(Z_{X})
+\label{eqn_pathint}
+\end{align}
+where
+\begin{itemize}
+\item $X=(A,\psi,\eta,\cdots,\varphi) \in {\cal M_{\text{full}}}$ is a solution of the classical equations of motion and $dX$ is a measure on this space.  As we will see ${\cal M}_{\text{full}}$ is finite dimensional so this integral will become a usual finite variable integral.
+\item $F=(A,\psi,\eta,\cdots,\varphi)$ is a general field configuration (not necessarily on-shell) and the $Z_{X}$ are coordinates based at $X$, to be thought of as small fluctuations of fields around the zero-mode $X$.  The integral over $Z_{X}$ is easily computed by by Gaussian integration.  In the case that ${\cal O}=1$ it is just a product of functional determinants.
+\end{itemize}
+
+
+\noindent It then follows that the remaining integral reduces to a sum of integrals over the the moduli spaces of extrema of $S_{DW}$ such that $S_{DW}/g_{YM}^2$ is a coupling-independent constant.  We will argue these are integrals over instanton moduli spaces.
+
+\begin{note}
+The functional integral over $DA$ is more precisely an integral over
+\begin{align*}
+{\cal C}=\text{Conn}(M)//{\cal G}
+\end{align*}
+where $\text{Conn}(M)=\coprod_{E}\text{Conn}(E)$ is the space of all $SU(2)$ bundles with connection $(E,\nabla)$ and ${\cal G}$ is the groupoid of bundle automorphisms.  As ${\cal G}$ is a group of automorphisms it does not map one isomorphism type of $E$ to a different isomorphism type so we can write
+\begin{align*}
+{\cal C}=\coprod_{\text{isomorphism types $[E]$}}{\cal C}_{E}
+\end{align*}
+where ${\cal C}_{E}=\text{Conn}(E)/{\cal G}_{E}$ for some representative $E \in [E]$ (note that ${\cal C}_{E}$ is independent of representative).  Thus, as isomorphism types of $E$ are labeled by $c_{2}(E) \in \mathbb{Z}$
+\begin{align*}
+\int_{{\cal C}} DA = \sum_{c_{2}(E) \in \mathbb{Z}} \int_{{\cal C}_{E}} DA.
+\end{align*}
+\end{note}
+
+\subsection{The Classical (action minimizing) Equations of Motion}
+Recall the Donaldson-Witten action
+\begin{align}
+S_{DW,0}=&\int_{M}d^{4}x\text{Tr}\left[\frac{1}{4}F_{\mu \nu}F^{\mu \nu}+\frac{1}{2}\phi\nabla_{\mu}\nabla^{\mu}\lambda-i\eta \nabla_{\mu}\psi^{\mu}+i\left(\nabla_{\mu}\psi_{\nu} \right)\chi^{\mu \nu}-\frac{i}{8}\phi[\chi_{\mu \nu},\chi^{\mu \nu}]-\frac{i}{2}\lambda[\psi_{\mu},\psi^{\mu}] \right. \nonumber\\
+-&\left.\frac{i}{2}\phi[\eta,\eta]+\frac{1}{8}[\phi,\lambda]^2\right],
+\label{eqn_DWunmod}
+\end{align}
+where the subscript $0$ is to remind ourselves that we have not included the additional chern number term.  The extrema which minimize this action and, hence, contribute the most to a saddle point approximation are solutions to the following classical equations of motion
+\begin{align*}
+0=&\left\{
+\begin{array}{cc}
+F^{-} & \text{if $c_{2}(E)>0$}\\
+F^{+} & \text{if $c_{2}(E)<0$}
+\end{array}
+\right.\\
+0=&(\nabla_{\mu}\psi_{\nu})^{+}\\
+0=&\nabla_{\mu}\psi^{\mu}\\
+0=&\nabla_{\mu}\varphi\\
+0=&\nabla_{\mu}\lambda
+\end{align*}
+where the superscripts $+$ and $-$ indicate the self-dual and anti-self-dual projections respectively (e.g. $F^{-}=0 \Leftrightarrow F=-*F$).  Let ${\cal M}^{\text{full}}_{E}$ be the moduli space of solutions (contained in the appropriate space of fields up to gauge transformations) for some fixed $SU(2)$ bundle $E$.  As the equations of motion contain the instanton equations of motion, there is a map
+\begin{align*}
+{\cal M}^{\text{full}}_{E} \overset{\text{proj}_{A}}{\longrightarrow} {\cal M}_{E}={\cal M}_{E}^{\text{instanton}}
+\end{align*}
+Further note that the linearization of the instanton equations of motion $F^{\pm}=0$ about some solution $A$ is
+\begin{align*}
+\left(\nabla_{\mu} \delta A_{\nu} \right)^{\pm}=0
+\end{align*}
+where $\delta A \in T_{A}\text{Conn}(E)$ is a tangent vector to some $A$ a solution of the full equations $F^{\pm}=0$.  Because $F^{\pm}=0$ are gauge-invariant equations then the linearized equations are automatically satisfied for $\delta A$ pointing along the directions of the gauge orbit passing through $A$.  We are really only interested in connections up to gauge equivalence (e.g. we actually want to focus on $\delta A \in T_{[A]}{\cal C}_{E}$) so we impose the condition that the $\delta A$ are transverse to gauge orbits via the gauge condition
+\begin{align*}
+\nabla_{\mu}\delta A^{\mu}=0.
+\end{align*}
+Note that when $c_{2}(E)<0$ these are precisely the equations of motion for the grassman-valued field $\psi$.  Thus, the solutions to the $\psi$ equations of motion about some (anti)instanton background $[A] \in {\cal M}_{E}$ (present in the connection $\Delta$) are precisely the odd tangent vectors to $[A]$, e.g. \footnote{Hence, the number of $\psi$ zero modes at any point is equal to the number of $A$ zero modes.}
+\begin{align*}
+\psi \in \Pi T_{[A]}{\cal M}_{E}
+\end{align*}
+where $\Pi$ indicates the parity reversal of the tangent bundle (e.g. the fibers are \textit{odd} vector spaces).  Thus, when $c_{2}(E)<0$ the map $\text{proj}_{A}:{\cal M}^{\text{full}}_{E} \rightarrow {\cal M}_{E}$ actually extends to a map onto the supermanifold
+\begin{align*}
+\widetilde{{\cal M}}_{E}=\Pi T{\cal M}_{E}=\left \{(A,\psi):\text{$A \in {\cal M}_{E}$ and $\psi \in \Pi T_{A}{\cal M}_{E}$}\right\}.
+\end{align*}
+The claim is now that ${\cal M}^{\text{full}}_{E}$ is in fact this supermanifold.
+
+
+\begin{remark}
+Note that the condition that $c_{2}(E)<0$ was essential for concluding that $\psi$ was an odd tangent vector to the instanton moduli space.  Indeed, the EOM $(\nabla_{\mu}\psi_{\nu})^{+}=0$ relied on the choice of $\chi^{\mu \nu}$ as a self-dual tensor and holds true no matter what the chern number of $E$.  This equation only agrees with $(\nabla_{\mu}A_{\nu})^{+}=0$ which is true for $c_{2}(E)<0$.  As we will argue in the next section correlation functions vanish for $c_{2}(E)>0$ so we will ignore this case for the time-being.
+\end{remark}
+
+\noindent The only fields left to analyze are the $\phi,\,\lambda,\,\chi,\,$ and $\eta$ fields.  Now we note that the $\chi$ and $\eta$ fields are auxilliary, i.e. they only enter algebraicially and so their equations of motion amount to nothing more than a reexpression of $\chi$ and $\eta$ as functions of $A,\psi,\phi$ and $\lambda$.  Hence, the only possible extra moduli are contributed by the $\phi$ and $\lambda$ fields.  Note that these as these fields are valued in the adjoint representation of $G$, they are sections of the bundle $\mathfrak{g}_{E}$; hence, as described in appendix \ref{sec_redconn} any non-trivial solution to the equations
+\begin{align*}
+\nabla \phi =&0\\
+\nabla \lambda =&0,
+\end{align*}
+where $\nabla$ is taken with respect to some $A \in {\cal M}_{E}$, implies that $A$ is a reducible connection.  But we are assuming that ${\cal M}_{E}$ contains no reducible connections (i.e. has no singularities); so the only possible solutions are the trivial ones
+\begin{align*}
+\phi = \lambda \equiv 0.
+\end{align*}
+Thus, for $c_{2}(E)<0$,
+\begin{align*}
+{\cal M}^{\text{full}}_{E} \cong \widetilde{{\cal M}}_{E}.
+\end{align*}
+
+\begin{definition}
+We define the total moduli space of anti-(super)-instantons (with anti-self-dual curvature forms) as the disjoint union
+\begin{align*}
+\widetilde{{\cal M}}_{ASD}=\coprod_{\left\{[E]:c_{2}(E)<0\right\}}\widetilde{{\cal M}}_{E}
+\end{align*}
+where the brackets $[\cdot]$ indicate isomorphism type.  This supermanifold has underlying bosonic part ${\cal M}_{ASD}$ the disjoint union of all the anti-instanton moduli spaces.
+\end{definition}
+
+\subsubsection{Yang-Mills part of the action}
+If we substitute the solutions to the EOM, described in the previous section, into the action $S_{0}$ of equation (\ref{eqn_DWunmod}) then we see that the only term which is nonvanishing is the contribution from the YM-part:
+\begin{align*}
+S_{DW,0}[X]/g_{YM}^2=S_{YM}[A], \: \forall X=(A,\psi,\phi,\cdots) \in \widetilde{{\cal M}}_{E}.
+\end{align*}
+
+\noindent But this contribution is just the standard instanton contribution derived in section \ref{sec_instanton},
+\begin{align*}
+S_{YM}(A)=\frac{8 \pi^2|c_{2}(E)|}{g_{YM}^2}.
+\end{align*}
+If $S_{0}$ were to be the action present in the path integral, this would be problematic as the leading order factors of the correlation function $Z[{\cal O}]$ are $e^{-S_{0}[X]}$ in equation (\ref{eqn_pathint}), but $S_{0}[X] \rightarrow 0$ in our exact saddle-point limit $g_{YM} \rightarrow 0$.  However, this problem is overcome when one also considers the extra topological chern number term 
+\begin{align*}
+S_{DW}=&S_{DW,0}+\int F \wedge F\\
+=&S_{DW,0}+8 \pi^2 c_{2}(E).
+\end{align*}
+Thus, on a solution of the equations of motion $X$,
+\begin{align*}
+S_{DW}[X]=&
+\left\{
+\begin{array}{cc}
+0 & \text{if $c_{2}(E)<0$}\\
+16 \pi^2c_{2}(E) & \text{if $c_{2}(E)>0$}
+\end{array}
+\right.
+\end{align*}
+So we conclude that
+\begin{align*}
+ e^{-S_{DW}[X]/g_{YM}^2} \overset{g_{YM}\rightarrow 0}{\longrightarrow}
+\left \{
+\begin{array}{cc}
+1 & \text{if $c_{2}(E)<0$}\\
+0 & \text{if $c_{2}(E)>0$}
+\end{array}.
+\right.
+\end{align*}
+Thus, our correlation function reduces to an integral over $\widetilde{\cal M}_{ASD}$
+\begin{align}
+Z[{\cal O}]=\int_{\widetilde{\cal M}_{ASD}}dX\int DZ_{X} \exp\left[-Z_{X}^{a}\left(\frac{\partial^2 S_{DW}}{\partial F^{a} \partial F^{b}}\right)_{F=X}Z_{X}^{b}\right]{\cal O}(Z_{X}).
+\label{eqn_pathASD}
+\end{align}
+Which, more specifically takes the form of a sum of low-energy correlation functions over the moduli spaces $\widetilde{{\cal M}}_{E}$ of dimension $d_{E}=\dim(\widetilde{{\cal M}}_{E})$,
+\begin{align}
+Z[{\cal O}]=\sum_{\left\{[E]:c_{2}(E)<0\right\}}\int_{\widetilde{{\cal M}}_{E}}dA_{1}\cdots dA_{d_{E}} d\psi_{1}\cdots d\psi_{d_{E}}\widetilde{{\cal O}}
+\label{eqn_lowenergycorr}
+\end{align}
+where $\widetilde{\cal O}$ is the effective low energy observable defined on $\widetilde{\cal M}_{ASD}$ (alternatively it is a collection of low energy observables defined on each moduli space $\widetilde{{\cal M}}_{E}$).  The effective low energy observable is found by integrating out the non-zero modes \footnote{Of course $\widetilde{{\cal M}}_{E}$ usually does not have a global coordinate chart, so an explicit expression in local coordinates $(A_{i},\psi_{i})$ for the low energy observable will only be locally defined.  However, as usual we will continue to work with local coordinate expressions as if they were global without generating confusion.}, i.e. by computing the gaussian integral over $Z_{X}$ in equation (\ref{eqn_pathASD}) (where $X=(A_{i},\psi_{i})$)
+\begin{align*}
+\widetilde{O}(X)=\int DZ_{X} \exp\left[-Z_{X}^{a}\left(\frac{\partial^2 S}{\partial F^{a} \partial F^{b}}\right)_{F=X}Z_{X}^{b}\right]{\cal O}(Z_{X}).
+\end{align*}
+Of particular use is the computation of $\widetilde{\cal O}$ for the observable ${\cal O}=\phi^{a}$.  Even though $\phi \equiv 0$ on the moduli space $\widetilde{\cal M}_{ASD}$, quadratic quantum fluctuations yield the non-zero result
+\begin{align*}
+\widetilde{{\cal O}}=\langle \phi^{a} \rangle=&-i \int_{M} d^{4}y \sqrt{g} G^{ab}(x,y)[\psi_{\mu}(x),\psi^{\mu}(y)]_{b}
+\end{align*}
+where the $\psi$ involved are on-shell (i.e. satisfy the classical EOM), and $G^{ab}$ is the Green's function of the Laplacian $\nabla_{\mu}\nabla^{\mu}$ for some anti-instanton background.  To compute $\langle \phi^{a} \rangle$ we must choose an anti-instanton background $A$ and a fermionic field satisfying the classical EOM with respect to $A$.  Hence, the low energy observable $\widetilde{\cal O}=\langle \phi^{a} \rangle$ is a function on $\widetilde{\cal M}_{ASD}$.
+
+\vspace{5mm}
+
+\noindent Now via the definition of fermionic integration,
+\begin{align*}
+\int  d\psi_{1}\cdots d\psi_{d_{E}}\widetilde{\cal O}
+\end{align*}
+vanishes unless
+\begin{align*}
+\widetilde{\cal O}(A_{i},\psi_{i})=\psi_{l_{1}}\cdots\psi_{l_{d_{E}}}\Phi^{l_{1} \cdots l_{d_{E}}}(A_{i})+\cdots
+\end{align*}
+where the remaining terms that are not shown are terms of degree $\neq d_{E}$ in the fermionic $\psi_{i}$ and do not contribute to the fermionic integral.  Note that $\Phi^{l_{1} \cdots l_{d_{E}}}$ can be taken to be totally antisymmetric in its indices so it defines a degree $d_{E}$ form $\Phi$ on ${\cal M}_{E}$, the underlying bosonic moduli space (which is the instanton moduli space)
+\begin{align*}
+\Phi=\Phi^{l_{1} \cdots l_{d_{E}}} dA_{l_{1}} \wedge \cdots \wedge dA_{l_{d_{E}}}.
+\end{align*}
+Thus,
+\begin{align*}
+\int_{\widetilde{{\cal M}}_{E}}dA_{1}\cdots dA_{d} d\psi_{1}\cdots d\psi_{d_{E}}\widetilde{{\cal O}}=\int_{{\cal M}_{E}}\Phi.
+\end{align*}
+
+\subsubsection{The $U$-charge determines the degree of $\Phi$}
+We recall that the fermionic field $\psi$ is assigned a $U$-charge $+1$ (also known as the ``ghost'' charge or $R$-charge).  Now the low-energy observable $\widetilde{O}$ must have the same $U$-charge as its high energy counterpart ${\cal O}$; so we find that
+\begin{align*}
+\widetilde{\cal O}=\psi_{l_{1}}\cdots\psi_{l_{d_{E}}}\Phi^{l_{1} \cdots l_{d_{E}}} \Longleftrightarrow \text{$U$-charge$({\cal O})=d_{E}$}.
+\end{align*}
+If ${\cal O}$ is $U$-charge ``inhomogenous'', e.g. is a sum of (possibly infinitely many) terms with different $U$-charges, then $\widetilde{O}$ is a sum of differential forms of degrees given by the $U$-charge of each term.  In the situation that ${\cal O}$ has a well-defined $U$-charge $U_{\cal O}$ then (\ref{eqn_lowenergycorr}) reduces to
+\begin{align*}
+Z[{\cal O}]=\left\{
+\begin{array}{cc}
+\int_{{\cal M}_{E}} \Phi & \text{if $\text{dim}({\cal M}_{E})=d_{E}=U_{\cal O}$}\\
+0 & \text{if $\not \exists d_{E} = U_{\cal O}$}
+\end{array}
+\right.
+\end{align*}
+where $\Phi$ is the differential form derived from ${\cal O}$ as previously described.
+
+\begin{remark}
+Given a product of observables ${\cal O}_{1} \cdots {\cal O}_{n}$, in nice scenarios we may expect that in the low energy limit
+\begin{align*}
+{\cal O}_{1} \cdots {\cal O}_{n} \rightsquigarrow \widetilde{\cal O}_{1} \cdots \widetilde{\cal O}_{n} \rightsquigarrow \Phi_{1} \wedge \cdots \wedge \Phi_{n}
+\end{align*}
+where the $\Phi_{i}$ is the differential form on instanton moduli space corresponding to $\widetilde{\cal O}_{i}$.  This nice factorization is certainly not the case for a general product of observables, but as Witten mentions in \cite{Witten_1988}, it happens to always be the case for the observables of interest in his computations.
+\end{remark}
+
+\subsubsection{The Polynomial Invariants}
+We now restrict our attention to the ``special'' BRST-closed gauge invariant observables previously defined.  In our notation these were integrals of the ${\cal O}^{(k)}$ over $k$-cycles.  To fix a convenient notation for this section we denote these observables by
+\begin{align*}
+I_{(k)}(\zeta_{k})=\int_{\zeta_{k}}{\cal O}^{(k)},\,\zeta_{k} \in H_{k}(M;\mathbb{R})
+\end{align*}
+where $k=0,\cdots,4$.  Note that in the previous notation of section \ref{sec_DonaldsonPoly}
+\begin{align*}
+\zeta_{0} &\in \langle x \rangle\\
+\zeta_{2} &\in \langle \gamma_{1},\cdots,\gamma_{b_{2}} \rangle\\
+\zeta_{4} &\in \langle z \rangle.
+\end{align*}
+In the spirit of the analysis above, we now produce a table of the $U$-charges of the $I_{(k)}$ and their corresponding low-energy observables.
+\begin{align*}
+\begin{array}{|c|c|c|c|c|}
+\hline
+I_{(k)} & \text{High Energy Observable} & \text{$U$-charge} & \text{Low Energy Observable} & \text{Associated Differential Form}\\
+\hline
+I_{(0)}(\zeta_{0}) & \frac{1}{2}\text{Tr}(\phi^2) & 4 & \frac{1}{2} \text{Tr}\left(\langle \phi \rangle^2\right) & \Phi_{\zeta_{0}}^{(4)}\\
+\hline
+I_{(1)}(\zeta_{1}) & \int_{\zeta_{1}}\text{Tr}(\phi \wedge \psi) & 3 & \int_{\zeta_{1}}\text{Tr}\left(\langle \phi \rangle \wedge \psi\right) & \Phi_{\zeta_{1}}^{(3)}\\
+\hline
+I_{(2)}(\zeta_{2}) & \int_{\zeta_{2}}\text{Tr}(\frac{1}{2}\psi \wedge \psi + i \phi \wedge F) & 2 & \int_{\zeta_{2}}\text{Tr}(\frac{1}{2}\psi \wedge \psi + i \langle \phi \rangle \wedge F) & \Phi_{\zeta_{2}}^{(2)}\\
+\hline
+I_{(3)}(\zeta_{3}) & i\int_{\zeta_{3}}\text{Tr}(\psi \wedge F) & 1 & i\int_{\zeta_{3}}\text{Tr}(\psi \wedge F) & \Phi_{\zeta_{3}}^{(1)}\\
+\hline
+\end{array}
+\end{align*}
+and as $\zeta_{4} \in H_{4}(M)$ is just some integer multiple $s$ of the fundamental class $z=[M]$:
+\begin{align*}
+I_{(4)}(\zeta_{4})=-\frac{1}{2}\int_{\zeta_{4}}F \wedge F = -4\pi s c_{2}(E).
+\end{align*}
+Note that the observable associated to a $k$-cycle has a $U$-charge $4-k$; hence, its associated low-energy observable yields a $4-k$ form on instanton moduli space.  The table then provides a map
+\begin{align*}
+\nu: H_{k}(M; \mathbb{R}) \rightarrow H^{4-k}\left({\cal M}_{ASD};\mathbb{R}\right)
+\end{align*}
+with
+\begin{align*}
+\nu(\zeta_{k})=\Phi^{(4-k)}_{\zeta_{k}}.
+\end{align*}
+As ${\cal M}_{E} \subset {\cal C}_{E}$ this map is Witten's answer to the map $\mu:H_{k}(M) \rightarrow H^{4-k}({\cal C}_{E})$ that Donaldson constructed using different techniques; and it provides all the necessary information for constructing the Donaldson polynomial invariants via the procedure outlined in section \ref{sec_DonaldsonPoly}.  More explicitly, we have a map
+\begin{align*}
+Q: \mathbb{R}[x,\gamma_{1},\cdots,\gamma_{b_{2}}] \rightarrow \mathbb{R}
+\end{align*}
+given by
+\begin{align*}
+Q\left\{p\left[x,\gamma_{1},\cdots,\gamma_{b_{2}}\right]\right\}=&Z\left\{p\left[I_{(0)}(x),I_{(2)}(\gamma_{1}),\cdots,I_{(2)}(\gamma_{b_{2}})\right]\right\}
+=\sum_{\left\{[E]:c_{2}(E) \in \mathbb{Z}\right\}} \int_{{\cal M}_{E}}p\left[\Phi_{x}^{(4)},\Phi_{\gamma_{1}}^{(2)},\cdots,\Phi_{\gamma_{b_2}}^{(2)}\right].
+\end{align*}
+If the polynomial has homogeneous degree then only term in the sum is nonvanishing: the one for which $d_{E}=|p|$ (if it exists) where $|p|$ is the cohomological degree of $|p|$.
+
+\subsubsection{The Donaldson Series: revisited}
+Witten's 1994 paper \cite{Witten_1994} produces the Donaldson-series of Kronheimer and Mrowka, rather than individual polynomial invariants.  This is done by computing the correlation functions
+\begin{align*}
+Z\left[\exp\left(\sum_{k}\alpha_{k}I_{(k)}^{\zeta_{k}}\right)\right],
+\end{align*}
+where $\alpha_{k}$ are arbitrary complex constants.  Upon expanding the exponential we note that we have an infinite collection of terms with varying $U$-charges, thus one expects this correlation function is a sum of the Donaldson polynomial invariants over an the various moduli spaces ${\cal M}_{E}$.  We will not prove that this sum is precisely of the form provided in section \ref{sec_Dseries} but instead refer the reader to the examples provided for computations of these invariants for $K3$ and the four-torus.
+
+\subsection{K\"ahler manifolds and $\mathcal{N}=1$}
+
+The holonomy group on a K\"ahler manifold is contained in $SU(2)_L\times U(1)_R$, where $U(1)_R$ is a subgroup of $SU(2)_R$.  Then, the supercharge that transforms under the global group $H$ as $(0,1)^1$ can be decomposed as $(0,-1)^1\oplus (0,0)^1\oplus(0,1)^1$. Then, in addition to the old ``twisted" SUSY generator  $\mathcal{Q}\sim (0,0)^1$, we have an extra Lorentz singlet $(0,0)^1$. Thus, one can write 
+\begin{equation}
+\mathcal{Q}=Q_1+Q_2,
+\end{equation} where $Q_1$ is the part of $\mathcal{Q}$ inside one $\mathcal{N}=1$ subalgebra and $Q_2$ is the part in the second. These operators obey
+\begin{equation}
+Q_1^2=Q_2^2=\{Q_1, Q_2\}=0, \,\,{\rm and}\,\,\{Q_{1,2},\mathcal{O}\}=\{Q_{1,2},I(\Sigma)\}=0.
+\end{equation}
+
+Let us consider temporarily $M=\mathbb{R}^4$ and regard $\mathbb{R}^4$ as a K\"ahler manifold\footnote{$z_1=y^1+iy^2,\,\,z_2=y^3+iy^4.$}.  The $\mathcal{N}=2$ SYM can be seen as an $\mathcal{N}=1$ theory by grouping the fields in the following way: $(A_\mu,\psi_\mu)$ is a gauge multiplet and $\Phi=(\phi, \eta)$ is a chiral supermultiplet in the adjoint representation. We can add to the action a $(\mathcal{N}=1)$ supersymmetric mass term
+\begin{equation}
+\Delta S = -m\int d^4x d^2\theta {\rm Tr} \Phi^2 -h. c. \label{mass}
+\end{equation}
+This term can be written as 
+\begin{equation}
+\sum_a \alpha_a I(\Sigma_a)+\{Q_1,\ldots\}.
+\end{equation}
+This perturbed theory has now a mass gap. The $\mathcal{N}=1$ theory has a symmetry $\mathbb{Z}_{2h}$ and a symmetry $\mathbb{Z}_2'$ because the invariance under $\Phi\rightarrow -\Phi$. $\mathbb{Z}_{2h}$ is broken to $\mathbb{Z}_2$ and therefore the unbroken symmetry group is $\mathbb{Z}_2\times \mathbb{Z}'_2$. 
+
+In a curved K\"ahler manifold, $m\,d^2z$ is replaced by a holomorphic two form $\omega$ on $\mathbb{R}^4$. Thus, requiring that $H^{2,0}\neq 0$, the perturbation to the action is 
+\begin{equation}
+\Delta S=-\int \omega \wedge d^2 \bar{z} d^2\theta {\rm Tr} \Phi^2 -h. c.
+\end{equation}
+
+Now, let us use the implications of a mass gap to compute the Donaldson invariants in a general manifold $M$. Temporarily, let us assume that there is only one vacuum. The first invariant to be considered is the partition function $Z=\langle 1 \rangle$. We start with a metric $g$ and then we rescale it by $g\rightarrow tg$ with $t>0$. When $t\rightarrow \infty$, the metric becomes nearly flat. When a mass gap exists, there is a response to a background gravitational field that is given by an effective action which can be expanded as a sum of local operators. Thus, 
+\begin{equation}
+\langle 1 \rangle = {\rm exp}(S_{eff}),
+\end{equation} with 
+\begin{equation}
+S_{eff} = \int d^4x \sqrt{g}(u+v R+wR^2+\ldots),
+\end{equation}
+where $R$ is the Ricci scalar and $u,\,v,\,w,\,\ldots$are constants.  For and operator $L$ of dimension $n$, $\int d^4x \sqrt{g} L$ scales as $t^{4-n}$. So, the first  terms in $S_{eff}$ scale as $t^4$, $t^2$ and $1$. As we are interested in topological invariance, this effective action must be independent of $t$ and therefore only operators of dimension $4$ can appear. The only topological invariants of a four-manifold that can be written as the integral of a local operator are the Euler characteristic and the signature:
+\begin{equation}
+\langle 1 \rangle = {\rm exp}(a \chi + b \sigma),
+\end{equation} where a and be are constants to be determined later. 
+
+Now, let us consider the correlation functions
+\begin{equation}
+\langle \mathcal{O}(x_1)\ldots \mathcal{O}(x_r) \rangle. 
+\end{equation} Since we can rescale the metric, we can assume that the $x_i$ are far apart from one another in a region in which $M$ is basically flat. Hence, using cluster decomposition, we can write:
+\begin{equation}
+\langle \mathcal{O}(x_1)\ldots \mathcal{O}(x_r) \rangle = \langle \mathcal{O}(x_1) \rangle^r_\Omega \cdot \langle 1 \rangle,
+\end{equation} where the subscript $\Omega$ refers to the normalized vacuum expectation value in the infinite volume limit. Furthermore, we can write
+\begin{equation}
+\langle {\rm exp}(\lambda \mathcal{O}) \rangle =  \langle 1 \rangle \cdot {\rm exp}( \langle \mathcal{O} \rangle_\Omega). \label{O-vev}
+\end{equation}
+
+Next, let us consider the operator $I(\Sigma)$. The one point function is 
+\begin{equation}
+\langle I(\Sigma) \rangle = \int_\Sigma d \sigma^{\mu \nu} \langle Z_{\mu \nu} \rangle.
+\end{equation}
+
+On $\mathbb{R}^4$ with a flat metric,$ \langle Z_{\mu \nu} \rangle = 0 $ due to Lorentz invariance. Now, let us rescale the metric by $g\rightarrow tg$ and take $t\rightarrow \infty$. Because of the mass gap, we can write $ \langle Z_{\mu \nu} \rangle $ as an expansion in terms of local invariants:
+\begin{equation}
+ \langle Z_{\mu \nu} \rangle = D_\mu R D_\nu D_\sigma D^\sigma R+\ldots 
+\end{equation} 
+
+All possible terms have dimension greater than two, therefore the expectation value vanishes faster than $1/t^2$; but the area of $\Sigma$ scales like $t^2$, hence  $\langle I(\Sigma) \rangle =0$. Using the same argument, the two point function 
+\begin{equation}
+ \langle I(\Sigma_1)I(\Sigma_2) \rangle = \int_{\Sigma_1\times \Sigma_2} \langle Z_{\mu \nu} Z_{\rho \sigma} \rangle d\sigma^{\mu \nu} d\sigma6{\rho \sigma} 
+ \end{equation} vanishes for $x \neq y$, surviving only the contributions where $x=y$ when $t\rightarrow\infty$. These contributions are localized at one of the intersection points $w_i$ and depend only on local invariants of the behavior of $\Sigma_a$ near $w_i$, this is the relative orientation with which the surfaces meet at this point. Thus,
+\begin{equation} 
+ \langle I(\Sigma_1)I(\Sigma_2) \rangle = \eta \cdot \#(\Sigma_1 \cap \Sigma_2 )\cdot \langle 1 \rangle,
+\end{equation}
+where $\eta$ is a universal constant. Generalizing this procedure and assuming that the $\Sigma_a$ have only pairwise intersections, we can write 
+\begin{equation}
+ \left\langle {\rm exp} \left(\sum_a I(\Sigma_a)\right) \right\rangle  = {\rm exp} \left( \frac{\eta}{2} \sum_{a,b} \alpha_a \alpha_b \#(\Sigma_a \cap \Sigma_b )\right) \cdot \langle 1 \rangle. \label{I}
+\end{equation} 
+ Putting together equations (\ref{O-vev}) and (\ref{I}), we get
+ \begin{equation}
+ \left\langle {\rm exp} \left(\sum_a I(\Sigma_a)+\lambda \mathcal{O}\right) \right\rangle  = {\rm exp} \left( \frac{\eta}{2} \sum_{a,b} \alpha_a \alpha_b \#(\Sigma_a \cap \Sigma_b) + \lambda \langle \mathcal{O} \rangle\right) \cdot \langle 1 \rangle.
+\end{equation} 
+
+The above results are generalized to the case of a discrete set of vacua $\Omega_\rho$ ($\rho \in S$, $S$ a finite set) by the expression 
+
+\begin{equation}
+ \left\langle {\rm exp} \left(\sum_a I(\Sigma_a)+\lambda \mathcal{O}\right) \right\rangle  = \sum_{\rho \in S} \langle 1 \rangle_\rho {\rm exp} \left( \frac{\eta_\rho}{2} \sum_{a,b} \alpha_a \alpha_b \#(\Sigma_a \cap \Sigma_b) + \lambda \langle \mathcal{O} \rangle_\rho\right), \label{I-O}
+\end{equation} where 
+\begin{equation}
+\langle 1 \rangle_\rho = {\rm exp}(a_\rho \chi + b_\rho \sigma).
+\end{equation}
+
+Now let us apply these results for a K\"ahler manifold and the gauge group $SU(2)$. As $\mathbb{Z}_4\times \mathbb{Z}'_2$ is broken to $\mathbb{Z}_2\times \mathbb{Z}'_2$, there are two vacuum states: $|+\rangle$ and $|-\rangle$.  $\eta$ and $\langle \mathcal{O}\rangle$ are odd under the broken symmetry, therefore $\eta_+=-\eta_-$ and $\langle\mathcal{O}\rangle_+=-\langle\mathcal{O}\rangle_-$. We can normalize the operators $\mathcal{O}$ and $I(\Sigma)$ so that $\eta_\pm = \pm 1$ and $\langle\mathcal{O}\rangle_\pm = \pm 2$ which agrees with the normalizations used for the Donaldson invariants that have been computed mathematically. There is a subtlety: the $\mathbb{Z}_4$ symmetry was generated by 
+\begin{equation}
+\alpha: \psi \rightarrow i\psi,\,\,\,\bar{\psi}\rightarrow -i \bar{\psi}. \label{z4}
+\end{equation} 
+In an instanton field of number $k$, the number of $\psi$ minus $\bar{\psi}$ zero modes is given by the index theorem:
+\begin{equation}
+\Delta =  4k-3(1-h^{1,0}+h^{2,0})=4k-\frac{3}{4}(\chi+\sigma)=\frac{1}{2}\mathcal{M}.
+\end{equation}
+
+Under the symmetry (\ref{z4}), the integration measure for the fermion zero modes is rescaled by $i^{-\Delta}$, therefore the values of the partition function at the two vacua are related by
+\begin{equation}
+\langle 1 \rangle_- = i^{\Delta} \langle 1 \rangle_+ = {\rm exp} \left(-\frac{3i\pi}{8}(\chi + \sigma)\right)\langle 1 \rangle_+.
+\end{equation}
+
+Some formulae can obtained in hyper-K\"ahler manifolds, for which the two-form $\omega$ has no zeroes. Also, the  holonomy is not $SU(2)_L\times U(1)_R$ but $SU(2)_L$, then the physical model coincides with the topological model.  There are two of these manifolds for dimension four: a four-torus $\mathbb{T}^4$ and a $K2$ surface. For the four-torus, $h^{1,0}=2,\,\,h^{2,0}=1, \,\,\Delta = 0,\,\,\chi=\sigma=0$, and therefore $\langle 1 \rangle_+=\langle 1 \rangle_-=1$. For $K3$, $h^{1,0}=0, \,\,h^{2,0}=1,$ and hence $\langle 1 \rangle_+=-\langle 1 \rangle_-=C$. Using these facts and comparing the formula (\ref{I-O}) with the mathematical computation, the correct value for $C$ is $1/4$.
+
+\section{Seiberg-Witten Duality}
+
+In 1994, Seiberg and Witten published a work in which they studied  the structure of the vacuum in $\mathcal{N}=2$ Supersymetric Yang-Mills theories \cite{SW}
+
+\subsection{$\mathcal{N}=2$ SYM action}
+
+
+Let us consider again $\mathcal{N}=2$ SYM, with  the fields $A_\mu$, $\lambda$  and $\phi$, $\psi$ in a single multiplet, all of them in the adjoint representation of the gauge group. The action of the theory is 
+\begin{eqnarray}
+S&=&\int d^4x \left[ {\rm Im} \left( \frac{\tau}{16\pi}\int d^2\theta {\rm Tr} W^\alpha W_\alpha\right)+\frac{1}{4 g_{YM}^2}\int d^2\theta d^2 \bar{\theta} {\rm Tr} \Phi^+ e^{-2 g_{YM} V}\Phi \right] \nonumber \\
+&=& {\rm Im\,\,Tr}\int d^4x \frac{\tau}{16\pi}\left[\int d^2\theta  W^\alpha W_\alpha + \int d^2\theta d^2 \bar{\theta}  \Phi^+ e^{-2 g_{YM} V}\Phi \right], \label{susy-action} 
+\end{eqnarray}
+where $$W_\alpha=\frac{1}{8g_{YM}}\bar{D}^2\left(e^{2g_{YM}V}D_\alpha s^{-2g_{YM}V}\right),$$ with $V$ a vector superfield containing $A_\mu$ and $\lambda$. $\Phi$ is a chiral superfield which contains the scalar $\phi$ and the fermion $\psi$. $D_\alpha$ and $\bar{D}_{\dot{\alpha}}$ are the superspace derivatives. The complex coupling constant $\tau$ is defined by
+\begin{equation}
+\tau = \frac{\theta}{2\pi}+\frac{4\pi i}{g_{YM}^2}.
+\end{equation}
+
+The auxiliary field action is given by 
+\begin{equation}
+S_{\rm aux}=\frac{1}{g_{YM}^2}\int d^4x \left[\frac{1}{2}D^2-g_{YM}\phi^+[D,\phi]+F^+F\right].
+\end{equation}
+By integrating the auxiliary fields $D$ and $F$ out, we get the bosonic potential 
+\begin{equation}
+S_{\rm aux}=-\int d^4x \frac{1}{2} ([\phi^+,\phi])^2=-\int d^4 x V(\phi),
+\end{equation}
+which is semidefinite positive. Unbroken SUSY requires a ground state with $V(\phi_0) =0$. 
+
+The action in equation (\ref{susy-action}) can be written in a way in which  $\mathcal{N}=2$ SUSY is manifest. We need to extend the anticommuting variable to $\theta_\alpha,\,\bar{theta}_{\dot{\alpha}},\,\,\tilde{\theta}_\alpha,\,\bar{\tilde{theta}}_{\dot{\alpha}}$ and introduce the $\mathcal{N}=2$ chiral superfield
+\begin{equation}
+\Psi= \Phi(\tilde{y},\theta)+\sqrt{2}\tilde{\theta}^\alpha W_\alpha(\tilde{y},\theta)+\tilde{\theta}^\alpha\tilde{\theta}_\alpha G(\tilde{y},\theta),
+\end{equation}
+where $\tilde{y}^\mu = x^\mu+i \theta \sigma^\mu \bar{\theta} + i \tilde{\theta} \sigma^\mu \bar{\tilde{\theta}}$ and $$ G (\tilde{y},\theta) =-\frac{1}{2}\int d^2\theta  [\Phi(\tilde{y}-i \theta \sigma \bar{\theta},\theta,\bar{\theta})]^+ {\rm exp}[-2g_{YM} V(\tilde{y}-i \theta \sigma \bar{\theta},\theta,\bar{\theta})].$$ Thus, we can write the $\mathcal{N}=2$ SUSY action as
+\begin{equation}
+{\rm Im}\left[ \frac{\tau}{16\pi}\int d^4x d^2 \theta d^2 \tilde{\theta} \frac{1}{2}{\rm Tr} \Psi^2\right]. \label{susy-action2}
+\end{equation}
+
+More generally, we can write the $\mathcal{N}=2$ SUSY action in terms of a function of $\Psi$ (only, not $\Psi^+$) $\mathcal{F}(\Psi)$. This is called the (holomorphic) ``prepotential". The action turns to be 
+\begin{equation}
+{\rm Im} \frac{\tau}{16\pi}\int d^4x d^2 \theta d^2 \tilde{\theta}\mathcal{F}(\Psi) . \label{susy-action3}
+\end{equation}
+
+Notice that for equation (\ref{susy-action2}), the prepotential is $$\frac{1}{2}{\rm Tr} \tau \Psi^2.$$ Also, we can write the action for  $\mathcal{N}=2$ in terms of  $\mathcal{N}=1$ as 
+\begin{eqnarray}
+{\rm Im} \frac{1}{16\pi}\int d^4x [ \int d^2 \theta \mathcal{F}_{ab}(\Phi) W^{a \alpha}W^b_\alpha \nonumber \\
++ \int d^2\theta d^2 \bar{\theta} \left(\Phi^+ e^{-2g_{YM}V}\right)^a \mathcal{F}_a(\Phi)],
+\end{eqnarray}
+ 
+ where the Lie algebra indices in $\mathcal{F}$ denote the derivative respect to $\Phi_a$. 
+ 
+ \subsection{Low-energy effective theory}
+\subsubsection{The moduli space}
+
+Let's consider the gauge group $SU(2)$. Classically, the theory has a scalar potential $$ V(\phi)=\frac{1}{2}([\phi^+,\phi])^2$$, unbroken SUSY leaves the possibility of non-vanishing $\phi$ with the commutator vanishing. We want to  determine the gauge inequivalent vacua. If we write $\phi$ as $$\phi(x)=\frac{1}{2}(a_j(x)+ib_j(x))\sigma_j$$ with real  $a(x)$ and $b(x)$. Using gauge invariance and requiring unbroken SUSY, we can write $$\phi=\frac{1}{2}a\sigma_3$$ with $a=a_3+ib_3$ a complex constant in the vacuum. Rotations around the 1 or 2 axis of $SU(2)$ change $a\rightarrow-a$ (Weyl symmetry). The gauge invariant quantity describing inequivalent vacua is ${\rm Tr} \phi^2 = \frac{1}{2}a^2$ which is classically unchanged but not in in the quantum regime. The inequivalent vacua, called the moduli space $\mathcal{M}$, will be parametrized by the complex $u=\langle {\rm Tr} \phi^2\rangle $ and the expectation value of $\phi$ will be $\langle \phi \rangle =  \frac{1}{2} a \sigma_3$. For $\langle \phi \rangle \neq 0$, the Higgs mechanism breaks $SU(2)$ to $U(1)$ generating masses for $m=\sqrt{2}a$ for the fields $A^b_\mu,\,\,\psi^b,$ and $\lambda^b$, $b=1,\,2$. Thus, we have now a theory with a $U(1)$ gauge group and $\mathcal{N}=2$ SUSY.  The term $e^{-2g_{YM} V}$ in the action contributes only with $1$ since the Abelian theory is not self-interacting for the remaining fields. Therefore, the low-energy effective action is 
+\begin{equation}
+{\rm Im} \frac{1}{16\pi}\int d^4x [ \int d^2 \theta \mathcal{F}''(\Phi) W^{\alpha}W_\alpha + \int d^2\theta d^2 \bar{\theta} \Phi^+ \mathcal{F}'(\Phi)]. \label{eff-action}
+\end{equation}
+
+Classically, we have seen that $\mathcal{F}$ is given by $\frac{1}{2} \tau_{cl}\Psi^2$. The full perturbative function, including one-loop corrections, is given by 
+\begin{equation}
+\mathcal{F} = \frac{i}{2\pi}\Psi^2 {\rm ln}\frac{\Psi^2}{\Lambda^2}.
+\end{equation}
+
+For very large $a$, contributions come from regions where the microscopic theory is asymptotically free and we can use the perturbative expression for $\mathcal{F}$:
+
+\begin{eqnarray}
+\mathcal{F}(a)\sim \frac{i}{2\pi}a^2 {\rm ln}\frac{a^2}{\Lambda^2} \,\,\,{\rm as } u\rightarrow \infty \nonumber \\
+\tau(a) \sim \frac{i}{\pi}\left( {\rm ln} \frac{a^2}{\Lambda^2}+3\right). \label{inf}
+\end{eqnarray}
+
+By looking at the kinetic term for the scalar $\phi$ in the second term of equation (\ref{eff-action}) we can notice that it has the form of a sigma model, we see then that ${\rm Im} \mathcal{F}''$ looks like a metric in the field space. It defines the metric in the moduli space:
+\begin{equation}
+ds^2= {\rm Im} \mathcal{F}''(a) da d\bar{a} = {\rm Im} \tau(a) da d\bar{a}. \label{metric}
+\end{equation}
+
+Now, the metric on the moduli space should be positive definite (${\rm Im}\tau(a)>0$); but since $\mathcal{F}$ is holomorphic, ${\rm Im }\mathcal{F}''$ is a harmonic function and can not have a minimum. Therefore, the coordinates $a$, $\bar{a}$,and the function $\mathcal{F}$ are pertinent only in a certain region of $\mathcal{M}$. For regions close to a singular point with ${\rm Im }\mathcal{F}''\rightarrow 0$, we must use different coordinates $\hat{a}$ and a non singular ${\rm Im} \hat{\tau}(\hat{a})$. This latter description will be provided by duality.
+
+\subsubsection{Duality}
+
+Let us a ``dual" field $\Phi_D$ by
+\begin{equation}
+\Phi_D = \mathcal{F}'(\Phi)
+\end{equation}
+and a ``dual" function $\mathcal{F}_D$ such that
+\begin{equation}
+\mathcal{F}'_D(\Phi_D)=-\Phi.
+\end{equation} This is a Legendre transformation $$ \mathcal{F}_D(\Phi_D)=\mathcal{F}(\Phi)-\Phi \Phi_D.$$
+Thus, we can write the second term in equation (\ref{eff-action}) as
+\begin{eqnarray}
+\int d^2\theta d^2 \bar{\theta} \Phi^+ \mathcal{F}'(\Phi) &=& \int d^2\theta d^2 \bar{\theta} (-\mathcal{F}'_D(\Phi_D))^+ \Phi_D \nonumber \\
+&=& \int d^2\theta d^2 \bar{\theta} \Phi_D^+ \mathcal{F}'_D(\Phi_D).\label{dualF}
+\end{eqnarray}
+
+
+Now, let us consider the first term in action (\ref{eff-action}).  There is a constraint on the field $F_{\mu\nu}$: $\frac{1}{2}\epsilon^{\mu\nu\rho\sigma}\partial_\nu F_{\rho\sigma}=0$.  This is written in superspace language as ${\rm Im} (D^\alpha W_\alpha)=0$.  This constraint can be implemented by using a real vector superfield $V_D$ as a Lagrange multiplier. One can add to the action the term
+\begin{equation}
+\frac{1}{32\pi} {\rm Im} \int d^4x d^4\theta V_D D^\alpha W_\alpha.\label{add}
+\end{equation}
+But, 
+\begin{eqnarray}
+\int d^4\theta V_D D^\alpha W_\alpha &=&- \int d^4\theta D^\alpha V_D W_\alpha= \int d^2\theta \bar{D}^2( D^\alpha V_D W_\alpha) \\
+&=&\int d^2\theta (\bar{D}^2 D^\alpha V_D) W_\alpha=-4 \int d^2\theta (W_D)^\alpha W_\alpha .\nonumber
+\end{eqnarray}
+
+Then, we can Gaussian integrate $W_\alpha$ and we obtain that the term (\ref{add}) is
+\begin{equation} 
+{\rm Im} \frac{1}{16\pi}\int d^4x \int d^2 \theta \frac{-1}{\mathcal{F}''(\Phi)} W_D^{\alpha}W_{D \alpha}. \label{dualW}
+\end{equation}
+
+This is a dual Yang-Mills action with the effective coupling $\tau(a)$ replaced by $-\frac{1}{\tau(a)}$. It can be shown that $W_D$ describes the electromagnetic dual $\tilde{F}$, meaning that this is a generalization of the electromagnetic duality. Equations (\ref{dualW}) and (\ref{dualF})together describe the dual theory:
+\begin{equation}
+{\rm Im} \frac{1}{16\pi}\int d^4x [ \int d^2 \theta \mathcal{F}_D''(\Phi_D) W_D^{\alpha}W_{D\alpha} + \int d^2\theta d^2 \bar{\theta} \Phi_D^+ \mathcal{F}_D'(\Phi_D)], \label{eff-action-dual}
+\end{equation}
+where $\mathcal{F}_D''(\Phi_D) = -\frac{1}{\mathcal{F}''(\Phi)} $ such that $\tau_D(a_D)=-\frac{1}{\tau(a)}$. 
+
+The metric (\ref{metric}) on the moduli space can be written now as 
+\begin{equation}
+ds^2 = {\rm Im} da_D d\bar{a} = -\frac{i}{2}(da_D d\bar{a}- d a d \bar{a}_D),
+\end{equation} where $a_D=\partial \mathcal{F}/\partial a$. Then, the symmetry of the moduli space is, initially,  $SL(2,\mathbb{R})$:
+\begin{eqnarray}
+\left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right)&\rightarrow & \left( \begin{matrix} 
+0 & 1 \\ 
+-1 & 0 \end{matrix} \right) \left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right) \\
+\left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right)&\rightarrow & \left( \begin{matrix} 
+1 & b \\ 
+0 & 1 \end{matrix} \right) \left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right),
+\end{eqnarray} with $b\in \mathbb{R}$. The last transformation (the $T$ transformation) acts on $a_D$ as $a_D\rightarrow a_D+ba$. If we look at the first term of the action, we see that it gets shifted by 
+\begin{equation}
+\frac{b}{16\pi}{\rm Im}\int d^4x d^2\theta W^2 = -\frac{b}{16\pi}{\rm Im}\int d^4xF\tilde{F} = -2\pi b k,
+\end{equation} where $k$ is the instanton number. Since the allowed shifts in the $\theta$ angle are by integer multiples of $2\pi$, $b$ must be an integer. Thus, the symmetry group of the moduli space is $SL(2, \mathbb{Z})$.The first transformation (called the $S$ transformation) is maps one description of the theory into another description of the same theory; namely, it maps the action (\ref{eff-action}) into the action (\ref{eff-action-dual}). 
+
+\subsection{BPS States and the Strong Coupling Region}
+We now propose the question: Given a massless $\mathcal{N}=2$ multiplet present in the spectrum of some Lagrangian theory, can this multiplet gain mass as we deform our Lagrangian parameters?  The answer turns out to be ``yes,'' although the deformed multiplet will be a representation of a centrally-extended SUSY algebra, with the mass of the multiplet given by the central charge.
+
+\subsubsection{$\mathcal{N}$-Extended SUSY}
+We now state results from the representation theory of $\mathcal{N}$ extended SUSY (in four dimensions).  Recall that the SUSY generators lie in representations of
+\begin{align*}
+\text{Spin}(1,3) & \cong \text{SL}(2,\mathbb{C})
+\end{align*}
+in the case of a Lorentz-signature manifold, or
+\begin{align*}
+\text{Spin}(4) & \cong SU(2) \times SU(2).
+\end{align*}
+In the case of a Riemannian signature manifold an irrep of the Lie algebra $\text{spin}(4)$ decomposes as a product $S_{L} \otimes S_{R}$ where $S_{L}$ and $S_{R}$ are representations of the left and right $su(2)$ subalgebras of $\text{spin}(4)$.  The standard $N$-extended SUSY algebra is then
+\begin{align}
+\left \{Q_{\alpha}^{i},\widetilde{Q}_{\dot{\beta}j} \right\}&=\delta^{i}_{j}\Gamma^{\mu}_{\alpha \dot{\beta}}P_{\mu} \label{eqn_SUSYalg}\\
+\left \{Q_{\alpha}^{i},Q_{\beta}^{j} \right \}&=0 \nonumber \\
+\left \{\widetilde{Q}_{\alpha}^{i},\widetilde{Q}_{\beta}^{j} \right \}&=0 \nonumber
+\end{align}
+where the $Q_{\alpha}$ are elements of $S_{L}$ and $\widetilde{Q}_{\dot{\alpha}}$ are elements of $S_{R}$ (the indices $\alpha$ and $\dot{\alpha}$ run from 1 to 2), and the $i,j$ run from $1$ to $N$.
+
+\vspace{5mm}
+
+\noindent Let us now look at the case of Lorentzian signature.  At the algebra level $sl(2,\mathbb{C})$ is the space of $2 \times 2$ traceless complex matrices and $su(2)$ sits inside $sl(2,\mathbb{C})$ as the traceless skew-Hermitian matrices.  An irrep $V$ of $sl(2,\mathbb{C})$ then decomposes as a direct sum of irreps of the $su(2)$ subalgebra as $S_{L} \oplus \overline{S_{L}}$.  Where $\overline{S}_{L}$ is the complex conjugate of $\rho$ with respect to the complex structure on $V$.  Thus, the SUSY algebra for the Lorentzian case looks similar to (\ref{eqn_SUSYalg}) with the extra condition that
+\begin{align*}
+\widetilde{Q}_{\dot{\alpha}}=(Q_{\alpha})^{\dagger}
+\end{align*}
+where the complex conjugation $\dagger$ is the given by the complex structure on the irrep $V$.  Note that for the Riemannian case there is no $\text{spin}(4)$ equivariant complex structure relating the left and right algebras so this condition does not exist; see appendix \ref{sec_LorentzvsEuc} for further details. For the remainder of these sections on Seiberg-Witten Duality we will work primarily in Lorentzian signature; again only mentioning in passing that the important results can be generalized to work in Riemannian signature when we attempt to apply them to Donaldson Theory.
+
+\vspace{5mm}
+
+\noindent We now state the dimensions of such SUSY representations for the massive (where the representation is derived from an irrep of the little group $\text{Spin}(2) \times U(N)$, where $U(N)$ is the Lorentzian $R$-symmetry group) and massless representations (where the representation is an irrep of the little group $U(1) \times U(N)$), respectively
+\begin{itemize}
+\item \underline{$M^2 \neq 0$}: Irrep has dimension $2^{2N}$.
+\item \underline{$M^2=0$}: Half of the supercharges are represented trivally and the irrep has dimension $2^{N} \overset{\text{CPT}}{\longrightarrow} 2(2^{N})$.
+\end{itemize}
+Where on the last line we noted that we sometimes double such a representation to its CPT completion (e.g. for an $N=2$ multiplet with helicities $j=-1,0,1/2$ by CPT we must also have a multiplet with $j=-1/2,0,1$).
+
+\subsubsection{The Centrally Extended Algebra}
+Here instead of the $QQ$ and $\widetilde{Q}\widetilde{Q}$ anticommutators vanishing we require
+\begin{align*}
+\left \{Q_{\alpha}^{i},Q_{\beta}^{j} \right\}=&\epsilon_{\alpha \beta}\epsilon^{ij}Z\\
+\left \{\widetilde{Q}_{\alpha}^{i},\widetilde{Q}_{\beta}^{j} \right\}=&\epsilon_{\dot{\alpha}\dot{\beta}}\epsilon^{ij}\widetilde{Z}.
+\end{align*}
+Where $Z \in \mathbb{C}$ is an additional central charge.  For a Lorentz-signature metric with the constraint $\widetilde{Q}=Q^{\dagger}$ we have that $\widetilde{Z}=\overline{Z}$.  One can show that a massive unitary representation of such an algebra requires a bound on the mass: $M \geq |Z|$, called the BPS (Bogomolny Prasad Sommerfeld) inequality. We now state the dimensions for massive representations of a centrally extended algebra.
+\begin{itemize}
+\item $M>|Z|$: Irrep has dimension $2^{2N}$
+\item $M=|Z|$: Irrep has dimension $2^{N}$
+\end{itemize}
+We note that something magical happens when the mass of the multiplet is equal to the central charge: the dimension is ``halved'' from the generic massive case. Indeed, when $M=|Z|$ one can prove a linear combination of the SUSY generators is represented trivially (in a similar manner to how this occurs for massless representations).
+
+\begin{definition}
+An irrep of a centrally extended SUSY algebra such that $M=|Z|$ is called a BPS representation (also called a short representation).
+\end{definition}
+
+\noindent Such representations are of extreme interest to both mathematicians and physicists as, loosely speaking, the presence of a BPS representation in the massive spectrum of a supersymmetric theory is stable against deformations of parameters in the Lagrangian.  If the deformations of the Lagrangian are given by choosing different vacua over some moduli space; understanding the BPS spectrum and possible discontinuous jumps of the spectrum (called wall-crossing) yields important information about the geometry of the underlying moduli space.
+
+\subsubsection{Classical Analysis of the Spectrum over the $u$-plane}
+Recall that the $u$-plane is parameterized by the holomorphic coordinate $u=\langle \text{Tr} \phi^2 \rangle$.  In a purely classical approximation this reduces to $\langle \text{Tr} \phi \rangle^2 = \frac{1}{2}a^2$ where $a = \text{Tr}(\phi)$.  In a classical Higgs-mechanism analysis, the $u$-plane has a singularity at $u=0$ where all fields remain massless but everywhere else the vector multiplets $W^{b}_{\mu}$ gain a mass $M_{W}=ea$ ($e$ the gauge-coupling constant) along the cartan ``orthogonal'' directions (e.g. $b=1,2$) with $W^{3}$ remaining massless and generating a residual $U(1)$ gauge symmetry.  The low lying spectrum for $u \neq 0$ is then
+\begin{itemize}
+\item Massless $U(1)$ vector multiplet $W^{3}$: 8-dim massless SUSY rep with helicity content
+\begin{align*}
+\begin{array}{cccccc}
+{} & {} & {} & 1 & 2 & 1\\
+{} & 1 & 2 & 1 & {} & {}\\
+{} & \ldots & \ldots & \ldots & \ldots & \ldots\\
+j= & -1 & -\frac{1}{2} & 0 & \frac{1}{2} & 1
+\end{array}
+\end{align*}
+\item Massive vector multiplets $W^{\pm}=W^{1} \pm i W^{2}$ with $U(1)$ charge $+1$: 8 states with spin content
+\begin{align*}
+\begin{array}{cccccc}
+{} & {} & {} & 1 & 2 & 1\\
+{} & 1 & 2 & 1 & {} & {}\\
+{} & \ldots & \ldots & \ldots & \ldots & \ldots\\
+j_{3}= & -1 & -\frac{1}{2} & 0 & \frac{1}{2} & 1
+\end{array}
+\end{align*}
+\end{itemize}
+Note that the remaining massless vector multiplet forms a SUSY rep of the correct dimension ($2(2^{2})=8$ where the extra factor of 2 arises from adjoining its CPT conjugate), which it should as nothing happens to it under the Higgs mechanism.  However, there $8$ states for the massive $W$ bosons (4 for the $W^{+}$ boson, 4 for the $W^{-}$ boson) while a generic \textit{massive} (non-centrally extended) SUSY rep is expected to have dimension $2^{4}=16$.  Thus, the only way the $W$ bosons can assemble themselves into SUSY multiplets is if these multiplets are BPS: e.g. they are invariant under a centrally extended algebra and their masses saturate the BPS inequality.  Indeed, a BPS multiplet for $\mathcal{N}=2$ extended SUSY has dimension $2^{2}=4$ (with CPT this becomes $8$-states and, indeed, the $W^{\pm}$ bosons are CPT conjugates of one another).
+
+\subsection{Other Contributions to the Spectrum at Weak Coupling}
+\label{sec_solitons}
+In the calculation of any correlation function at weak coupling, via the saddle-point approximation, the path integral also receives contributions from ``soliton'' solutions to the equations of motion of the low-energy effective action.  In other words, the semi-classical mass spectrum contains
+\begin{itemize}
+\item The quantization of ``small oscillations'' around the vacuum.   These ``oscillations'' can be thought of as the quantized solutions to the linearized equations of motion (expanded about the chosen vacuum).  Each field contributes one particle and this is how we get the $W$-bosons and the $U(1)$ gauge field.
+\item The quantization of ``solitons''/lumps.
+\end{itemize}
+
+
+\vspace{5mm}
+
+\noindent In $\mathcal{N}=2$ super-YM the fields which minimize the action (so contribute non-trivially to the path-integral at weak coupling) are time-independent solutions to equations of motion whose bosonic parts are
+\begin{align*}
+[\phi,\overline{\phi}]=0\\
+F_{ij}=\frac{1}{2}\epsilon_{ijk}\nabla_{k}\phi.
+\end{align*}
+The first equation is just the familiar condition that the classical scalar potential be minimized (i.e. $V_{\text{scalar}}=0$); the solutions can be written up to a gauge transformation as $\phi=\frac{1}{2}a(\vec{x})\sigma^{3}$ where $\vec{x} \in \mathbb{R}^{3}$ some spacelike slice; note that we do not require $\phi$ to necessarily be constant in space.  The latter equations are called the Bogolmony equations.  The obvious solutions
+\begin{align*}
+\phi(\vec{x}) &\equiv \frac{1}{2}a \sigma^3\\
+F &\equiv 0 \text{ $\Rightarrow A$ gauge equivalent to the zero connection}.
+\end{align*}
+where $a$ is constant, give the absolute minima of the action and are just the vacua labeling the classical moduli space.  However, there are well-known solutions, called the monopole solutions, for which $\phi$ is not a constant field.  As suggested by their name, such solutions have a corresponding magnetic charge as discovered by using the magnetic analogue of Gauss' law on the field strength $\epsilon_{ijk}F_{jk}=B_{i}$ (after projecting $F$ onto the unbroken gauge group, see section \ref{sec_olivewitten}); in particular, solutions are known which have magnetic charge $\pm 1$.  At large distances (where the scalar field approaches a constant) the field generated by such solutions looks like that of a point source Dirac monopole.  However, unlike the Dirac monopole these solutions have a finite action and the connection never becomes singular.
+
+\vspace{5mm}
+
+\noindent There is actually a whole moduli space of magnetic monopole solutions ${\cal M}_{\text{mon}}$ with magnetic charge $+1$ (similarly for monopole solutions with magnetic charge $-1$) equipped with a natural action of the Poincar\'{e} group $P=\text{Spin}(4) \rtimes V$ for $V \cong \mathbb{R}^{4}$ the translations.  For small oscillations, there is also a moduli space: i.e. the linear space spanned by each independent solution to the linearized equations of motion.  The quantization of this (via canonical quantization) is the familiar one-particle Hilbert space consisting of single photons and $W^{+}$ bosons \footnote{By the usual procedure we then take the Fock space of the one-particle Hilbert space to be contained in Hilbert space of the full field theory.  If we ignore soliton contributions then this small oscillation Fock space is taken as the entire Hilbert space.}.
+
+\vspace{5mm}
+
+\noindent In the quantization of our theory we expect to see the presence of soliton solutions.  There are two possibilities for their quantized versions.
+\begin{enumerate}
+\item It may be that such solutions appear as resonances, i.e. complex poles in the resolvent of the Hamiltonian, which would be the case if quantum mechanical tunneling of the soliton solutions into small oscillations or other solitons occured (e.g. a monopole might decay into a collection of photons and $W^{+}$ bosons).  In this case the soliton resonances are not in the real-valued spectrum of the Hamiltonian so they should be expressible as (complicated) linear combinations of small oscillations.  
+\item More interestingly, if under quantization our soliton solutions are protected against quantum mechanical tunneling, then we expect them to be in the spectrum of the Hamiltonian.  In this situation, the soliton solutions are orthogonal states to the small oscillations so, in analogy to the small oscillation situation we must include the single-particle quantization of the soliton moduli space into the Hilbert space of the theory.  This can be done via canonical quantization to get ${\cal H}_{\text{1-part}} \cong L^2(\mathbb{\cal M}_{\text{mon}})$ or through some geometric quantization procedure.
+\end{enumerate}
+
+\begin{remark}
+For a Lorentz covariant version of the above discussion, we may want to replace the word ``Hamiltonian'' with ``momenta,'' i.e. the full generators of the translation group $V=\mathbb{R}^{4}$.  Although nothing is wrong with the way it is currently expressed.
+\end{remark}
+
+\noindent If we consider the full supersymmetric versions of our monopole solutions, it turns out that they are of the latter type: i.e. they are protected against quantum mechanical tunneling and we expect to see them as stable particles in the mass spectrum of our theory. Indeed, at the classical level half of the SUSY generators vanish on the full supersymmetric versions of the monopole solutions.  Hence, half of the SUSY generators vanish on the moduli space of supersymmetric monopoles $\widetilde{\cal M}_{\text{mon}}$ and so, as monpoles are massive, the one-particle quantization of this moduli space ${\cal H}_{\text{mon}}$ is a \text{BPS} representation.  This is quite a powerful result, BPS particles are generically protected against decay: they can only decay into particles whose central charge has the same phase.  Thus, such particles are protected against tunneling via quantization and are present as stable particles in the mass spectrum of our theory.
+
+\vspace{5mm}
+
+\noindent Taking the Fock space built around ${\cal H}_{\text{mon}}$ we have a representation for the monopole field as a BPS \textit{hypermultiplet}, i.e. the spin of the fermionic components is $1/2$.  Indeed, the bosonic part of the monopole solution is rotationally symmetric; hence is lies in a spin 0 representation of the massive little group ($\text{spin}(2)$).  Under application of the SUSY generators the entire monopole BPS multiplet has spin content
+\begin{align*}
+\begin{array}{cccc}
+{} & 1 & 2 & 1\\
+{} & \ldots & \ldots & \ldots\\
+j_{3}= & -\frac{1}{2} & 0 & \frac{1}{2}
+\end{array}
+\end{align*}
+so forms a hypermultiplet.  This is rather unusual from the small oscillation perspective as only vector multiplets are present in the Lagrangian; there is no Higgs type mechanism to generate these hypermultiplets, unlike the $W^{+}$ bosons which lie in BPS vector multiplets: their presence is only revealed through solutions to the full non-linear equations of motion.  We now make two remarks.
+
+\begin{remark}
+There is also a moduli space of (anti) monopoles with magnetic charge $-1$.  These are equally as important as the $+1$ monopoles and their quantized versions lie in the mass spectrum of the theory.  The same story follows as with the monopoles and they form a BPS hypermultiplet with opposite magnetic charge.  We may also speak of moduli spaces of monopoles with charges $>1$ or $<1$.
+\end{remark}
+
+\begin{remark}
+Under quantization monopoles of charge $n_{m}$ can gain an electric charge given by
+\begin{align*}
+q_{e}=n_{e}+\frac{\theta}{2\pi}n_{m}
+\end{align*}
+where $n_{e},n_{m} \in \mathbb{Z}$.  For a rough outline for why this is true see appendix \ref{sec_mon_charge}.  Thus, the massive spectrum of our theory actually contains dyons (particles with electric and magnetic charges).
+\end{remark}
+
+\noindent We now wish to find the mass of such dyons.  Because our particles are BPS this question is reduced to finding the central charge of a dyonic hypermultiplet.
+
+\subsubsection{Olive and Witten's Central Charge Equation}
+\label{sec_olivewitten}
+Assume a given solution of the classical equations of motion for pure $\mathcal{N}=2$ SYM, is invariant under some centrally extended SUSY algebra.  With this assumption, one can calculate the necessary central charge (in the classical theory) via a result of Olive and Witten \cite{Olive_Witten}.  In particular, let $A,\phi$ be the (non-Auxiliary) bosonic components of our solution and let $(\vec{x},t) \in \mathbb{R}^{4}$ be a coordinate system so that $\vec{x} \in \mathbb{R}^{3}$ is some coordinate on a spacelike slice.  If the solution is to have finite energy, then it is necessary that the scalar field must approach a constant value at asymptotic spatial infinity
+\begin{align*}
+\phi(\vec{x}) \overset{|\vec{x}| \rightarrow \infty}{\longrightarrow} \langle \phi \rangle.
+\end{align*}
+Thus, under quantization, this solution contributes to the semiclassical spectrum of the theory with vacuum expectation value $\langle \phi \rangle$.  If we expand the action around our time-independent solution; then just as with the standard classical Higgs mechanism, as $\phi(\vec{x})$ can be gauged to lie in the cartan subalgebra, we see that the $SU(2)$ gauge group is broken to the maximal torus $U(1)$.  The vacuum expectation value of $\phi$ is then labeled by the gauge invariant parameter $a=\text{Tr}(\phi^2)$. The resulting abelian theory has appropriately normalized electric and magnetic fields:
+\begin{align*}
+E_{i}=&\frac{1}{a}\text{Tr}\left[\phi F_{0i}\right]\\
+B_{i}=&\frac{1}{a}\epsilon_{ijk}\text{Tr}\left[\phi F_{jk}\right]
+\end{align*}
+where we note that $\text{Tr}(\phi F)$ projects the field strength $F$ onto the unbroken $U(1)$ direction.  We can now extract the electric and magnetic charges (with respect to the remaining $U(1)$ gauge theory) of our solution by Gauss' law (with normalization such that the $W^{+}$ bosons have $q_{e}=1$)
+\begin{align*}
+q_{e}=&\int d^3x \partial_{i} E_{i}=\frac{1}{a}\int d^3x \partial_{i}\left[\text{Tr}\left(\phi F_{0i}\right)\right]\\
+q_{m}=&\int d^3x \partial_{i} B_{i}=\frac{1}{a}\int d^3x \epsilon_{ijk}\partial_{i}\left[\text{Tr}\left(\phi F_{ij}\right)\right].
+\end{align*}
+Olive and Witten were able to show that if the solution is known to be SUSY invariant, the supercharges leaving the solution invariant must satisfy
+\begin{align*}
+\left \{Q_{\alpha}^{j},Q_{\beta}^{k}\right \}=&a\epsilon^{jk}\epsilon_{\alpha \beta} \left(q_{e}+\frac{i}{e^2}q_{m}\right)
+\end{align*}
+where $e$ is the broken $U(1)$ gauge coupling.  So the algebra must be centrally extended with central charge
+\begin{align*}
+Z=a \left(q_{e}+\frac{4\pi i}{e^2}q_{m}\right)
+\end{align*}
+so the mass of the multiplet is required to satisfy
+\begin{align*}
+M \geq a \sqrt{q_{e}^2+\left(\frac{q_{m}}{e^2}\right)^2};
+\end{align*}
+If half of the supercharges vanish on the solution, the resulting multiplet is BPS and the inequality above is saturated.  This is the case for the W-bosons as well as the magnetic monopole solutions discussed previously.  In fact, via the standard Higgs mechanism the mass of the $W$ bosons is precisely $M=\langle \phi \rangle$ which agrees with the equation above as $q_{e}=1$ and $q_{m}=0$ for $W$-bosons.
+
+\subsection{Masses of the Dyons}
+
+\noindent From this latter observation we can rewrite Olive and Witten's equation for the central charge of a (semiclassical) massive dyonic hypermultiplet as (setting $a=\langle \phi \rangle$)
+\begin{align}
+Z=&a \left(q_{e}+i\frac{4\pi}{e^2}q_{m}\right) \nonumber\\
+=&a \left[n_{e}+\left(\frac{4\pi i}{e^2}+\frac{\theta}{2\pi}\right)n_{m}\right] \nonumber\\
+=&a \left(n_{e}+\tau_{\text{cl}}n_{m}\right).
+\label{eqn_OWcentral}
+\end{align}
+where $\tau_{\text{cl}}$ is the holomorphic gauge coupling \footnote{Note that $\tau_{\text{cl}}$ runs with the Wilsonian energy scale; hence, we expect this semiclassical description to be modified in a full quantum theory}.  In particular, the mass of the monopole (with $q_{m}=1,\,q_{e}=0$) is given as
+\begin{align*}
+M_{\text{monopole}}=\frac{4\pi|a|}{e^2}
+\end{align*}
+which can be alternatively verified by direct substitution of the monopole solution into the Hamiltonian for $\mathcal{N}=2$ SUSY to calculate the energy.  In general, note that the central charge equation implies that the mass of any dyon (including the monopole) with a non-zero magnetic charge behaves at small coupling (where this equation is valid) like
+\begin{align*}
+M_{\text{dyon}} \sim \frac{|a|}{e^2}.
+\end{align*}
+so for weak coupling, the masses of all dyons are very large.  This means the low-lying mass spectrum is dominated by the perturbative $W^{\pm}$ bosons as the dyons decouple from the physics at low enough energies.
+
+
+\subsection{Asymptotic Freedom and the Deep Quantum Regime of Small $u$}
+The effective prepotential for the effective abelian gauge theory (after integrating out all massive fields) takes the form (evaluated on vacua) \footnote{where we can replace the moduli parameter $u$ everywhere with $\Psi^2$, where $\Psi$ is the $\mathcal{N}=2$ superfield, to see the form of the prepotential in the effective action}
+\begin{align*}
+\mathcal{F}(u)=\underbrace{i\frac{1}{2\pi}u\log\left(\frac{u}{\Lambda^2}\right)}_{\text{Perturbative contributions}}+\underbrace{\sum_{k=1}^{\infty}\mathcal{F}_{k}\left(\frac{\Lambda^2}{u}\right)u}_{{\text{Instanton contributions}}}.
+\end{align*}
+The perturbative contributions are derived from the classical prepotential along with 1-loop corrections (higher loop corrections vanish by holomorphy arguments), while the instanton contributions arise via integrating out $SU(2)$ instantons in the original $SU(2)$ (high energy) theory.  Although we have an explicit expression for the perturbative contribution, we still know very little about the instanton contributions and, in fact, before Seiberg and Witten came along this was the source of the difficulty in understanding the effective theory at strong coupling.  Indeed, for large $u$ where the effective coupling is small, the instanton corrections are suppresed by powers of $1/u$ so the theory is dominated by perturbative corrections.  However, at small $u$ the instanton corrections play a significantly larger role than the perturbative corrections.  This means that the entire classical description of the $u$-plane is likely no longer valid.
+
+\vspace{5mm}
+
+\noindent Let us look at the problem of small $u$ from a different (but related) point of view.  Recall that $\mathcal{N}=2$ SYM (with $SU(2)$ gauge group) is asymptotically free.  Thus, as one continues to integrate out all massive particles the effective gauge coupling continues to grow.  Let $\mu$ be the Wilsonian renormalization scale so that $e_{\text{eff}}(\mu)$ is a function of $\mu$; at some point there is a scale $\Lambda$ such that
+\begin{align*}
+e_{\text{eff}}(\Lambda) \sim 1
+\end{align*}
+so perturbation theory can no longer be applied.  Once the lowest mass particle is integrated out we obtain a our pure $U(1)$ effective gauge theory with coupling $e_{\text{eff}}(M_{\text{lowest}})$.  The strength of the effective coupling, thus, depends on the scale of the lowest mass; at small $u$ where our semiclassical description is valid, we know that this mass is proportional to $a \sim \sqrt{u}$.  Hence, we have the following observations:
+\begin{itemize}
+\item $|u/\Lambda^2|<<1 \Rightarrow e_{\text{eff}}<<1$: semiclassical perturbative regime.
+\item $|u/\Lambda^2| \gtrsim 1 \Rightarrow e_{\text{eff}} \gtrsim 1$: perturbative description breaks down.
+\end{itemize}
+
+\subsubsection{Low Energy Spectra: Expectation}
+Given what we have learned about the $S$ transformation of the $SL(2,\mathbb{Z})$ duality of our low energy theory along with observations about monopole contributions to the semiclassical mass spectrum (at large $u$) we can make a good guess about the dominant mass spectrum of the $u$ plane for small $u$.  Indeed, from our semiclassical analysis we showed the mass of a dyon behavs like 
+\begin{align*}
+M_{\text{dyon}} \sim 1/e^2,
+\end{align*}
+thus, if at least this qualitative description holds in the deep quantum regime, the dyonic masses continue to shrink and we would expect the low lying mass spectrum to be dominated by BPS hypermultiplets consisting of monopoles and dyons rather than $W^{\pm}$ vector multiplets.  Furthermore, these hypermultiplets may be expected to naturally couple to an $S$-dual transform of the $U(1)$ (electric) gauge field: a $U(1)$ magnetic magnetic gauge field with holomorphic gauge coupling $\tau_{D} = -1/\tau$.  In this dual magnetic description $e_{D} \sim 1/e$ so as $e$ is very large, $e_{D}$ is small and so the description would be perturbative.  In summary: we expect
+\begin{itemize}
+\item $u > \Lambda^2$: $e_{\text{eff}}<1$ and spectrum is dominated by massive electrically charged $W^{\pm}$ bosons (BPS vector multiplets) and a $U(1)$ (electric) gauge field.
+\item $u \lesssim \Lambda^2$: $e_{D,\text{eff}}<1$ and spectrum dominated by massive monopoles/dyons (BPS hypermultiplets) and a $U(1)$ (magnetic) gauge field.
+\end{itemize}
+
+\subsubsection{The Quantum-Corrected Central Charge and Duality}
+As just discussed, if in the region of small $u$ the monopole/dyon description is fully peturbative, then just as the semiclassical description $u = \frac{1}{2}a^2$ was good for large $u$, we have that $u= \frac{1}{2}a_{D}^2$ is a good semiclassical description for small $u$.  Here we are defining $a_{D}=\phi_{D}$, where $\phi_{D}$ is the scalar component of the $U(1)$ vector superfield.  
+
+\vspace{5mm}
+
+\noindent Furthermore, via the Olive and Witten result (now replacing ``electric'' everywhere with ``magnetic'') the semiclassical central charge for monopoles can be given as
+\begin{align*}
+Z=a_{D} n_{m}.
+\end{align*}
+Thus, for general dyons, we expect that
+\begin{align*}
+Z=a n_{e} + a_{D} n_{m}
+\end{align*}
+Note that this is a generalization of the previous semiclassical expression (\ref{eqn_OWcentral}); however, in the previous expression $\tau_{\text{cl}}$ changes with the Wilsonian renormalization scale; but it does not make sense that $Z$ depends on the scale.  This latter expression is renormalization invariant and, in fact, gives the full quantum description of the central charge.  Now, under a general $SL(2,\mathbb{Z})$ transformation $M$
+\begin{align*}
+\left(
+\begin{array}{c}
+a_D\\
+a
+\end{array}
+\right) \mapsto M\left(
+\begin{array}{c}
+a_D\\
+a
+\end{array}
+\right)
+\end{align*}
+But the physical theory is the same under $SL(2,\mathbb{Z})$ transformation; hence, the central charge $Z$ (which is a physical quantity) should be invariant under such a transformation.  This requires
+\begin{align*}
+(n_{m}, n_{e}) \mapsto (n_{m},n_{e})M^{-1}
+\end{align*}
+so that
+\begin{align*}
+Z=(n_{m},n_{e})\left(
+\begin{array}{c}
+a_D\\
+a
+\end{array}
+\right)
+\end{align*}
+is invariant.  Hence, when performing a duality transformation, if there are particles of charges $(n_{m},n_{e})$ (such as BPS dyons) before the transformation, then there are particles of charges $(n_{m},n_{e})M^{-1}$ after the transformation.
+
+\begin{remark}
+$SL(2,\mathbb{Z})$ symmetry is a full duality symmetry of the effective \textit{pure} U(1) gauge theory (after all masses are integrated out).  However, the full duality does not lift to a duality symmetry of the theory with masses (i.e. there is no full Olive-Montonen duality).  As we will see, the actual duality subgroup for the full theory is a subgroup $\Gamma(2) \leq SL(2,\mathbb{Z})$ generated by a set of monodromies on the $u$-plane.
+\end{remark}
+
+\subsubsection{Structure of the moduli space}
+
+
+Useful information about the behavior of $a(u)$ and $a_D(u)$ through the moduli space $\mathcal{M}$ can be obtained from their behavior as $u$ is taken around a closed contour. If there are not singular points inside the contour, $a$ and $a_D$ will just return to their initial values.  But, if the contour goes around a singular point, $a$ and $a_D$ will not return to the original values and we will have a ``monodromy" for the $a(u)$ and $a_D(u)$. 
+
+Let us consider first the monodromy at infinity. As we saw previously, as $u\rightarrow \infty$, the perturbative expression for $\mathcal{F}$ in equation (\ref{inf}) is valid. Therefore, 
+\begin{equation}
+a_D(u)=\frac{\partial \mathcal{F}(a)}{\partial a } = \frac{i}{\pi}a \left( {\rm ln}\frac{a^2}{\Lambda^2}+1\right),\,\,\,u\rightarrow\infty \label{mon-inf}
+\end{equation}
+
+Thus, if we take $u$ around a (counterclockwise) contour of very large radius: $u\rightarrow e^{2\pi i}u$; this is equivalent to encircle the point $\infty $ on the Riemann sphere in a clockwise direction. Thus, as $u\rightarrow e^{2\pi i}u$, $$ a \rightarrow -a \,\,{\rm and} \,\, a_D \rightarrow \frac{i}{\pi} (-a) \left( {\rm ln} \frac{e^{2\pi i}}{\Lambda^2}+1\right) = -a_D+2a.$$ This is
+\begin{eqnarray}
+\left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right)&\rightarrow & \left( \begin{matrix} 
+-1 &2 \\ 
+0& -1 \end{matrix} \right) \left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right)  = M_\infty \left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right).
+\end{eqnarray} $u=\infty$ is a branch point of $a_D(u)$, and it's a singularity of the moduli space. 
+
+Now,  since a branch cut starts and ends somewhere, there must be at least another singularity. The global symmetry $u\rightarrow -u$ implies that singularities should come in pairs. Besides $\infty$, the only fixed point under this symmetry is $u=0$; thus, if there are only two singularities, they have to be $\infty$ and $0$.  But, by deforming the contour around 0, one can see that the monodromy around 0 is the same as the one around $\infty$ and $a^2$ is a good complex coordinate. This is contradictory with previous discussions. Therefore, there must be at least two more singularities in addition to infinity: $\infty$, $u_0$ and $-u_0$.  A natural interpretation of singularities in the $u$ plane is that some extra massless particles appear at a particular value of $u$. These singularities at $\pm u_0$ cannot be massless gauge bosons because that would imply $u_0=0$. These singularities turn out to come from monopoles and dyons when they become massless. 
+
+The mass of a magnetic monopole is given by $m^2=2 |a_D|^2$, which vanishes when $a_D=0$, let us call $u_0$ to value of $u$ for which this happens. Magnetic monopoles are described by hypermultiplets $M$ coupled to the dual fields $\Phi_D$ and $W_D$. In this dual description of the theory, $a_D\sim \langle \Phi_D\rangle$ is small when $u$ is near to $u_0$. The beta function is given by
+\begin{equation}
+\mu \frac{d}{d\mu}g_D = \frac{g_D^3}{8\pi}
+\end{equation} and (for $\theta_D=0$) $\tau_D = \frac{4\pi i}{g_D^2(a_D)}$; also, the scale $\mu$ is proportional to $a_D$. Therefore, $d\tau_D = -8\pi i /g_D^3$. Hence, 
+\begin{equation} 
+a_D \frac{d}{da_D}\tau_D=-\frac{i}{\pi}\Rightarrow \tau_D=-\frac{i}{\pi}{\rm ln} a_D.
+\end{equation}
+
+But $\tau_D=\frac{d(-a)}{da_D}$, and therefore 
+\begin{equation}
+a \approx a_0+ \frac{i}{\pi}a_D {\rm ln}a_D -\frac{i}{\pi}\approx  a_0+ \frac{i}{\pi}a_D {\rm ln}a_D \,\,\,{\rm as} \,\,u\approx u_0.
+\end{equation}
+
+As $a_D$ is a good coordinate near $u_0$, it depends linearly on $u$:
+
+\begin{eqnarray}
+a_D&\approx & c_0(u-u_0) \nonumber \\
+a & \approx & a_0 +\frac{i}{\pi}c_0(u-u_0) {\rm ln}(u-u_0).
+\end{eqnarray}
+
+When $u$ turns around $u_0$, $u-u_0 \rightarrow e^{2\pi i} (u-u_0)$ and therefore 
+
+\begin{eqnarray}
+\left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right)&\rightarrow & \left(\begin{matrix}
+a_D \\ 
+a - 2a_D
+\end{matrix}\right) \rightarrow \left( \begin{matrix} 
+1 &0 \\ 
+-2& 1 \end{matrix} \right) \left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right)  = M_{u_0} \left(\begin{matrix}
+a_D \\ 
+a
+\end{matrix}\right).
+\end{eqnarray}
+
+We want, now, to find the third singularity, at $u=-u_0$. The contour around infinite is equivalent to a counterclockwise contour with a very large radius. This contour can be deformed into a contour encircling $u_0$ and a contour surrounding $-u_0$, both counterclockwise. Then, we can write
+\begin{equation}
+M_\infty= M_{u_0}M_{-u_0}.
+\end{equation} 
+Therefore
+\begin{eqnarray}
+M_{-u_0}=\left( \begin{matrix} 
+-1 &2 \\ 
+-2& 3 \end{matrix} \right).
+\end{eqnarray}
+
+Let us consider the row vector $(n_m, n_e)=q$, the massless particle that produces a monodromy $M$ obeys $qM\,=\,q$. Then, one can confirm that the monopole obeys $q_1M_{u_0}\,=\,q_1$ with $q_1=(1,0)$. In addition, one can check that the $q$ corresponding to $M_{-u_0}$ is $q_{-1}=(1,-1)$ which is known as a dyon. Thus, this monodromy arises from a massless dyon at $u=-u_0$.
+
+\subsection{The Seiberg-Witten Solution}
+Note that once we determine the pair of (locally) $\mathbb{C}$-valued $u$-plane functions $(a_{D}(u),a(u))$ everywhere, then we have determined the whole duality class of low energy effective prepotentials, and hence, effective Lagrangian descriptions for each vacuum $u$.  Before Seiberg and Witten, an exact determination of $(a_{D},a)$ would have been considered impossible, especially in the strong coupling regime where the perturbative description breaks down and unknown instanton contributions to the prepotential dominate.  However, the duality description in conjunction with the insights about the nature of singularities in the strong coupling region allowed Seiberg and Witten to discover such an exact solution.
+
+\subsubsection{The Bundle}
+Recall that the moduli space of vacua is the $u$-plane $\mathbb{C}P^1-\left\{0,+\Lambda^2,-\Lambda^2\right\}$ equipped with a $\mathbb{Z}_{2}$ action $u \mapsto -u$.  The duality arguments from above show that $(a_{D},a)$ are naturally viewed as sections of some flat \footnote{Flatness arises as we want to implement monodromy transformations as the result of parallel transport of $(a_{D},a)$ around loops encircling singularities.  E.g. we want a connection whose parallel transport around loops should furnish a representation of the fundamental group of the $u$-plane (with singularities removed) so the connection needs to be flat.} $SL(2,\mathbb{Z})$ rank-2 $\mathbb{C}$ (holomorphic) vector bundle $F$ with monodromy group $\Gamma(2)$ generated by
+\begin{align*}
+M_{\infty}=&
+\left(
+\begin{array}{cc}
+-1 & 2\\
+0 & -1
+\end{array}
+\right)\\
+M_{\Lambda}=&
+\left(
+\begin{array}{cc}
+1 & 0\\
+-2 & 1
+\end{array}
+\right)\\
+M_{-\Lambda}=&
+\left(
+\begin{array}{cc}
+-1 & 2\\
+-2 & 3
+\end{array}
+\right).
+\end{align*}
+The $(a_{D},a)$ form a local holomorphic sections of $F$.  More precisely, we showed such a section $(a_{D},a)$ is only locally defined up to a $\Gamma(2)$ monodromy transformation; so what we really wish to find are generators of $\Gamma(2)$-family of local sections $(a_{D},a)$ on each local trivialization of $F$ over the $u$-plane \footnote{Better yet we can think of the $(a,a_{D})$ as a global section on the pullback of $F$ to a $\Gamma(2)$ cover of the $u$-plane.  Indeed, in the final section of original Seiberg-Witten paper the $u$-plane is described as a quotient $\mathbb{H}/\Gamma(2)$ of the upper half-plane $\mathbb{H}$.  The pullback mentioned here would be via the quotient map $\mathbb{H} \rightarrow \mathbb{H}/\Gamma(2)$.}.   The problem then lies in constructing such a bundle and determining these generators.
+
+\subsubsection{A Natural Construction}
+Note that a general $SL(2,\mathbb{Z})$ transformation acts on
+\begin{align*}
+\tau(u)=\frac{da_{D}/du}{da/du}
+\end{align*}
+via
+\begin{align*}
+\tau \mapsto \frac{a \tau +b}{c \tau +d},\,\,
+\left(
+\begin{array}{cc}
+a & b\\
+c & d
+\end{array}
+\right) \in SL(2,\mathbb{Z}).
+\end{align*}
+The invariant information contained in the orbit of such a $\tau$ under $SL(2,\mathbb{Z})$ is contained in a Riemann surface of genus 1.  An $SL(2,\mathbb{Z})$ transformation  the orbit of $\tau$ defines a unique complex structure on a torus.  Thus, over each point $u$ we assign an elliptic curve $E_{u}$ with complex structure given by $\tau$ (called the period matrix in this context); forming an elliptic fibration over the $u$-plane.  At the singularities on the $u$ plane (where $\tau$ vanishes or blows up) the torus fibers $E_{u}$ degenerate as a homology cycle vanishes.  
+
+
+\vspace{5mm}
+
+\noindent Each torus fiber contains a natural action of $SL(2,\mathbb{Z})$ which are the automorphisms of the lattice $\Gamma_{u} \subset \mathbb{C}^2$ which generate $E_{u}=\mathbb{C}^2/\Gamma_{u}$ (from another point of view, these automorphisms are implemented via Dehn twists).  The $SL(2,\mathbb{Z})$ action passes down to the 2 (complex) dimensional first cohomology $H^{1}(E_{u};\mathbb{C})$.  Thus, given an elliptic fibration we immediately a natural choice for a rank 2 complex vector bundle $F$ by taking the cohomology groups of the elliptic fibers $E_{u}$ as the fibers of $F$.  Thus, it only remains to find an elliptic fibration with singularities at $\left\{0,\pm \Lambda^2 \right\}$ and $\Gamma(2)$ as the monodromy group for the corresponding $F$.  Seiberg and Witten knew of such a fibration (by then a well-known example by algebraic geometers) given by
+\begin{align*}
+E=\left\{(y_{u},x) \in \mathbb{C}^2: y_{u}^2=(x-\Lambda^2)(x+\Lambda^2)(x-u) \right\}.
+\end{align*}
+On a generic torus-fiber $E_{u}$ there is a canonical holomorphic $1$-form, called the invariant differential form \cite{Husmoller} given by
+\begin{align*}
+\theta_{u} = \frac{dx}{2 y_{u}}
+\end{align*}
+In terms of this differential form, the period-matrix $\tau_{u}$ of $E_{u}$ is given by
+\begin{align*}
+\tau = \frac{\int_{b} \theta_{u}}{\int_{a} \theta_{u}},
+\end{align*}
+so as
+\begin{align*}
+\tau = \frac{da_{D}/du}{da/du}
+\end{align*}
+then for some arbitrary constant $\alpha$,
+\begin{align*}
+\frac{da_{D}}{du}=\alpha \int_{b} \theta_{u}\\
+\frac{da}{du}=\alpha \int_{a} \theta_{u}
+\end{align*}
+where the $a$ and $b$ cycles are independent generators for $H_{1}(E_{u};\mathbb{Z})$.  By imposing the asymptotic conditions
+\begin{align*}
+a(u) \sim \sqrt{2u},\,u \rightarrow \infty
+\end{align*}
+one can derive that
+\begin{align*}
+\alpha=-\frac{1}{2\sqrt{2\pi}}.
+\end{align*}
+Writing out the integrals over $\theta_{u}$ explicitly, and solving the differential equations for $a$ and $a_{D}$, then
+\begin{align*}
+a(u)=&\frac{\sqrt{2}}{\pi}\int_{-\Lambda}^{\Lambda}dx \frac{\sqrt{x-u}}{x^2-\Lambda^4}\\
+a_{D}(u)=&\frac{\sqrt{2}}{\pi}\int_{\Lambda}^{u}dx \frac{\sqrt{x-u}}{x-\Lambda^{4}},
+\end{align*}
+which are hypergeometric functions and possess the correct monodromies around the points $\pm \Lambda$ and $\infty$.
+
+\section{The Seiberg-Witten Invariants}
+This section will mostly be a sketch of the ideas behind deriving the Seiberg-Witten invariants and their relation to Donaldson theory via the technology of Seiberg-Witten duality described in the previous section.  There are many important details left unmentioned but the goal is, hopefully, to give the reader a sense of the big picture.
+
+\vspace{5mm}
+
+\noindent In the description of Donaldson-Witten theory, the tractability of the computation of the correlation functions\footnote{Where ${\cal O}_{DW}$ are products of the BRST closed $I^{(k)}_{\gamma}$.} $Z[{\cal O}_{DW}]$ relied on the exact saddle point approximation in the limit $g_{YM} \rightarrow 0$.  The resulting expressions were integrals over (anti)instanton moduli space ${\cal M}_{ASD}$, and the topological invariance of the correlation functions allowed us to identify them with the Donaldson polynomial invariants.  The limit $g_{YM} \rightarrow 0$ is a (semi)-classical limit in the sense that the major contributions to the correlation functions came from the equations of motion and small quantum fluctuations around them (computable via Gaussian integrals).  However, because the correlation functions $Z[{\cal O}]$ of interest are coupling-constant invariant, one should also be able to compute them in the ``deep-quantum''\footnote{Because of the way that the coupling constant and the metric enter into the Donaldson-Witten action, taking $g_{YM} \rightarrow \infty$ is equivalent to rescaling the metric $g \rightarrow t g$ as $t\rightarrow \infty$.  This latter limit can be thought of as ``blowing up'' the manifold causing it to look more and more locally flat.  Furthermore, by blowing up the manifold we are increasing the size of local regions so long wavelength ``Fourier modes'' of correlation functions become increasingly important; hence, this is equivalent to taking an infrared limit of the theory.} limit $g_{YM} \rightarrow \infty$.
+
+\vspace{5mm}
+
+\noindent Before the advent of SW duality, one may wonder why you would want to do such a thing: the correlation functions $Z[{\cal O}]$ were easily computable in the semi-classical limit, why try to compute them in the poorly understood quantum regime where perturbation theory is far from applicable; especially when you know the final result will be the same?  Yet, after Seiberg and Witten's description of the deep quantum regime for $\mathcal{N}=2$ pure SYM as a weakly coupled (semiclassical) regime of monopoles and dyons an interesting possibility arose: perhaps a \textit{new} TQFT with weak coupling arises as a dual description of strongly coupled Donaldson-Witten theory.  The Donaldson-Witten correlation functions ${\cal O}_{DW}$ could then be re-expressed in terms of the topological correlation functions ${\cal O}_{SW}$ adapted to the new SW-dual TQFT.
+
+\subsection{The $u$-plane Integral}
+
+Donaldson-Witten theory is related to $\mathcal{N}=2$ SYM via the Witten twist (with the coupling constant of the untwisted theory becoming the coupling constant of Donaldson-Witten theory), so it is not surprising that there is also the notion of the u-plane of scalar field expectation values in DW theory.  Indeed, the scalar fields $\phi$ and $\overline{\phi}$ are twisted into $\phi$ and $\lambda$ (respectively) and in $S_{DW}$ there is the scalar potential $[\lambda,\phi]$ carrying over from the SYM description.  Hence, in DW theory there is also a space of possible vacua labeled by $u=\left \langle \text{Tr} \phi^2 \right \rangle$.  In SYM theory on flat $\mathbb{R}^{4}$ each vacuum $u$ labels a different theory; and computations of correlation functions requires a choice of $u$; different sectors of $u$ do not mix.  However, DW theory is formulated on a \textit{compact} 4-manifold where constant scalar fields are normalizable (as opposed to the non-compact $\mathbb{R}^{4}$ case); so the computation of a specific correlation function may require integrating over different values \footnote{From a different point of view, in SYM $u$ labels the boundary conditions at asymptotic infinity on the scalar fields $\phi$ integrated over in the path integral.  As $\mathbb{R}^{4}$ is non-compact, it would take an infinite amount of energy to change from one set of boundary conditions to another.  For a finite sized system (e.g.a compact manifold with or without boundary) this would only require a finite energy.  Hence, correlation functions of operators with Fourier modes of wavelengths smaller than the size of the manifold can probe into different values for $u$.} of $u$.
+
+
+\vspace{5mm}
+
+\noindent We did not see any integral over $u$ in our computation of the correlation functions $Z[{\cal O}_{DW}]$ in the semi-classical limit $g_{YM} \rightarrow 0$.  In fact, for $b_{+}>1$ (so there there were no reducible connections) we concluded that the only possible value for the scalar field on the classical moduli space was $\phi \equiv 0$; meaning our path integral only received a contribution from $u=0$ in this limit.  From the alternative point of view (as explained in \cite{Iga}) from the untwisted SYM, we can think of the region in the $u$ plane where the theory is classical (large $u$) as expanding in the limit $g_{YM} \rightarrow \infty$; until the only contribution to the correlation function comes from $u=0$.  At this point, as the theory is classical, the $SU(2)$ gauge symmetry is unbroken.
+
+\vspace{5mm}
+
+\noindent If we want to compute in the $g_{YM} \rightarrow \infty$ limit, then the path integral will, in general, receive contributions from the entire (full-quantum) $u$-plane which means we need to have an excellent understanding of the deep quantum regime.  Seiberg-Witten's description provides such an understanding for the $u$-plane of SYM on flat $\mathbb{R}^{4}$ and because of the relationship between DW theory and SYM via the Witten twist, it turns out a similar description can be applied to the $u$-plane of DW theory on a 4-manifold.  In fact, Moore and Witten discovered in \cite{Moore_Witten} that if $b_{+}>1$, the correlation function $Z[{\cal O}_{DW}]$ receives contributions only from the special (singular) points $u=\pm \Lambda^2$ describing a $U(1)$ gauge theory with a massless monopole/dyon.
+
+\subsection{Seiberg-Witten Theory}
+
+\noindent We expect that the theories near the singular points $u=\pm \Lambda^2$ in DW theory, look like Witten twisted versions of SYM near the monopole and dyon points.  Motivated by this, we analyze the structure of the flat $\mathbb{R}^{4}$ SYM theory at near the singular monopole point which consists of of a $U(1)$ vector multiplet and $\pm 1$ magnetically charged hypermultiplet (at the dyon point these hypermultiplets have dyonic charges).  If we perform a Witten twist on such a theory the vector multiplet changes in the same manner as the twist we performed to go from SYM to the DW theory.  The new structure that we have not previously analyzed was the hypermultiplet %\footnote{Note that we have switched notation from before: $L \mapsto -,\,R \mapsto +$, and $I \mapsto R$ going from the previous notation to the current notation; the reason for this is it seems more appropriate for the following discussion.}
+\begin{align*}
+\begin{array}{|c|c|c|c|}
+\hline
+\text{field} & \text{spin} & \text{statistics} & SU(2)_{L} \times SU(2)_{R} \times SU(2)_{I}\\
+\hline
+\xi_{\alpha} & 1/2 & \text{fermion} & (1/2,0,0)\\
+\varphi, \widetilde{\varphi} & 0 & \text{boson} & (0,0,1/2)\\
+\widetilde{\xi}_{\alpha} & 1/2 & \text{fermion} & (0,1/2,0)\\
+\hline
+\end{array}
+\end{align*}
+this twists to
+\begin{align*}
+\begin{array}{|c|c|c|c|}
+\hline
+\text{field} & \text{spin} & \text{statistics} & SU(2)_{L} \times SU(2)_{I'}\\
+\hline
+\xi_{\alpha} & 1/2 & \text{fermion} & (1/2,0)\\
+\varphi_{\dot{\alpha}} & 1/2 & \text{boson} & (0,1/2)\\
+\widetilde{\xi}_{\dot{\alpha}} & 1/2 & \text{fermion} & (0,1/2)\\
+\hline
+\end{array}
+\end{align*}
+The expectation is that the resulting twisted theory also forms a TQFT.  Indeed, the same analysis applies to the supercharges under this twist, we once again end up with a supercharge-singlet (e.g. our BRST operator) $Q$ from which we can show the new twisted theory is topological with appropriate choice of BRST closed correlation functions.  Yet, there is one important caveat: the twisted hypermultiplet contains spinor fields: $\varphi_{\alpha},\,\xi_{\alpha}$, and $\widetilde{\xi}_{\dot{\alpha}}$.  If we are to formulate the theory on a general 4-manifold $M$, then we must be able to construct a spin bundle on $M$.  As $\text{Spin}(4)=SU(2)_{-} \times SU(2)_{+}$ such a bundle is equivalent to the following.
+
+\begin{definition}
+A spin structure on a manifold $M$ is a pair of rank $2$ vector bundles $S^{+},S^{-} \rightarrow M$ each with structure group $SU(2)$ and related to the tangent bundle by the map
+\begin{align*}
+\Gamma: TM \rightarrow \text{Hom}\left(S^{+},S^{-}\right).
+\end{align*}
+\end{definition}
+
+\begin{remark}
+Sections of $S^{-}$ are fields transforming under $SU(2)_{L}$ with undotted indices, while sections of $S^{+}$ are fields transforming under $SU(2)_{R}$ with dotted indices.  Furthermore, the map $\Gamma$ is just given by the familiar $\Gamma^{\mu}_{\alpha \dot{\beta}}$ that satisfy the Clifford algebra relations.
+\end{remark}
+
+\noindent But not all simply connected, closed 4-manifolds are spinnable (i.e. admit a spin bundle). \footnote{The obstruction to the existence of a spin bundle for four manifolds is the second Stiefel-Whitney class $w_{2}(M) \in H^2(M;\mathbb{Z})$.}  So it would appear at first sight we are restricted to spin manifolds: this is not good if we wish to make a connection with Donaldson theory, which is valid on \textit{any} simply connected orientable closed 4-manifold.  The day is saved by the remaining global $U(1)$ symmetry.  In particular, we note that the fields $\xi_{\alpha},\,\varphi_{\dot{\alpha}},\,\widetilde{\dot{\alpha}}$ lie in a representation of the global symmetry group $\text{Spin}(4) \times U(1)$ such that the action of $(-1,-1) \in \text{Spin}(4) \times U(1)$ is trivial.  Hence, the fields lie in a representation of the quotient group
+\begin{align*}
+\text{Spin}^{c}(4) = (\text{Spin}(4) \times U(1))/\mathbb{Z}_{2}
+\end{align*}
+So the minimal structure required on our $4$-manifold is a $\text{Spin}^{c}(4)$ bundle: e.g. a rank-2 $\mathbb{C}$ vector bundle $W$ with structure group $\text{Spin}^{c}(4)$.  More specifically,
+
+\begin{definition}
+A $\text{Spin}^{c}$ structure on $M$ is given by a pair of rank-2 $\mathbb{C}$ vector bundles $W^{\pm}$ over $M$ with an isomorphism $\det W^{-} \cong \det W^{+}=L$, where $L$ is a line bundle over $M$ such that locally $W^{\pm}=S^{\pm} \otimes L^{1/2}$.
+\end{definition}
+
+\begin{remark}
+Here $\det W=\Lambda^2 W$ is the determinant line bundle \footnote{whose transition maps are those of $W$}, $S^{\pm}$ is a spin bundle, and $L^{1/2}$ is a local square root of $L$, i.e. $L^{1/2} \otimes L^{1/2} = L$.  Neither $S^{\pm}$ nor $L^{1/2}$ may exist globally so these equations only make sense over some local patch on $M$.
+\end{remark}
+
+\begin{remark}
+The twisted fields $\varphi{\dot{\alpha}}$ and $\widetilde{\xi}_{\dot{\alpha}}$ are sections of $W^{+}$ (as suggested by the dotted-indices) while $\xi_{\alpha}$ is a section of $W^{-}$.
+\end{remark}
+
+\begin{remark}
+Locally, $\text{Hom}(W^{+},W^{-}) \cong \text{Hom}(S^{+},S^{-})$ so we can think of the local maps $\Gamma$ as coming together to form 
+\begin{align*}
+\Gamma: TM \rightarrow \text{Hom}\left(W^{+},W^{-}\right)
+\end{align*}
+Again, we will denote is map in components by $\Gamma^{\mu}_{\alpha \dot{\beta}}$.
+\end{remark}
+
+\noindent It is a well-known result that all closed orientable 4-manifolds admit a $\text{Spin}^{c}$ structure, allowing us to make sense of the fields $\varphi_{\dot{\alpha}}$ and $\xi_{\alpha}$.  In fact, just as there is a classification of the $SU(2)$ bundles $E$ over $M$, there is also a classification of our $\text{Spin}^{c}$ vector bundles.
+
+\begin{remark}
+Let $W^{\pm}$ be a $\text{Spin}^{c}$ structure on $M$ and $\det(W^{\pm})=L$ the determinant line bundle.  Then the first Chern class $c_{1}(L) \in H^{2}(M;\mathbb{Z})$ classify $W^{\pm}$ uniquely up to isomorphism.
+\end{remark}
+
+\noindent Finally, we must make sense of differentiation on our $\text{Spin}^{c}$ bundles.  Locally, $W^{\pm}=S^{\pm} \otimes L^{1/2}$ so we have two natural structures:
+\begin{itemize}
+\item A Dirac operator on the (locally defined) spin bundles $S^{\pm}$
+\begin{align*}
+D: \Gamma(S^{+}) \rightarrow \Gamma(S^{-})
+\end{align*}
+\item A connection $A$ (this is the $U(1)$ gauge field) on the (locally defined) line bundle $L^{1/2}$ 
+\end{itemize}
+From these two structures, on each of our local patches where they are defined we can create a $\text{Spin}^{c}$ connection
+\begin{align*}
+D_{A}: \Gamma(W^{+}) \rightarrow \Gamma(W^{-}),
+\end{align*}
+On a local section $\phi$ of $W^{+}$, we can write this connection in local coordinates as
+\begin{align*}
+(D_{A} \phi)_{\alpha} =\Gamma^{\mu}_{\alpha \dot{\beta}}(D+A)_{\mu}\phi^{\dot{\beta}}
+\end{align*}
+It turns out that with consistent local choices of $D$ and $A$ the connection $D_{A}$ is well-defined globally.  We make one more observation to help us write down the Seiberg-Witten equations.
+
+\begin{remark}
+As $S^{+}$ is a pseudo-real representation, then $\overline{S^{+} \otimes L^{1/2}} \cong S^{+} \otimes L^{-1/2}$.  Thus, if $\varphi$ is a section of $W^{+}$, locally $\overline{\varphi} \otimes \varphi$ is a section of
+\begin{align*}
+\left[S^{+} \otimes L^{-1/2}\right] \otimes \left[S^{+} \otimes L^{1/2}\right] \cong \Lambda^{0}_{\mathbb{C}} \oplus \Lambda^{2,+}_{\mathbb{C}}
+\end{align*}
+where $\Lambda^{0}_{\mathbb{C}}=\Lambda^{0}T^*M\otimes \mathbb{C}$ is just the trivial line bundle whose sections are complex-valued functions on $M$ and the sections of $\Lambda^{2,+}_{\mathbb{C}} \cong \left(\Lambda^{2}T^*M\right)^{+} \otimes \mathbb{C}$ are self-dual (complex-valued) $2$-forms on $M$.  Roughly, as the line bundles ``cancel'' in this computation, this result holds globally.  Thus, we have a sesquilinear map
+\begin{align*}
+\tau: \Gamma(W^{+}) \times \Gamma(W^{+}) \rightarrow \Lambda^{2,+}_{\mathbb{C}}
+\end{align*}
+such that $\tau(\varphi,\chi)$ is the projection of $\overline{\varphi} \otimes \chi \in \Lambda^{0}_{\mathbb{C}} \oplus \Lambda^{2,+}_{\mathbb{C}}$ onto $\Lambda^{2,+}_{\mathbb{C}}$.  We can write down this projection explicitly if we define
+\begin{align*}
+\Gamma_{\mu \nu \dot{\alpha} \dot{\beta}}=\frac{1}{2}\left[\Gamma_{\mu \delta \dot{\alpha}}\Gamma_{\nu \delta \dot{\beta}}-\Gamma_{\nu \delta \dot{\alpha}}\Gamma_{\mu \delta \dot{\beta}}\right]
+\end{align*}
+(e.g. the commutator of $\Gamma$ matrices).  So that
+\begin{align*}
+\tau(\varphi,\chi)_{\mu \nu}=\overline{\varphi}^{\dot{\alpha}}\Gamma_{\mu \nu \dot{\alpha} \dot{\beta}}\chi^{\dot{\beta}}.
+\end{align*}
+\end{remark}
+
+
+
+\noindent With this technology, the Seiberg-Witten equations of motion for a section $\varphi \in \Gamma(W^{+})$ of some $\text{Spin}^{c}$ bundle on $M$ with a $\text{Spin}^{c}$ connection $D_{A}$ are
+\begin{align*}
+F^{+}_{A}=&-\tau(\varphi,\varphi)\\
+0=&D_{A}\varphi.
+\end{align*}
+These equations of motion for the $U(1)$ gauge field $A$ and the boson $\varphi_{\alpha}$, resulting from the new action on the four-manifold $M$; for clarity, we can write them more explicitly as
+\begin{align}
+F_{\mu \nu}^{+}=&-\frac{i}{2} \overline{\varphi}^{\dot{\alpha}}\Gamma_{\mu \nu \dot{\alpha} \dot{\beta}}\varphi^{\dot{\beta}} \nonumber \\
+0=&\Gamma^{\mu}_{\dot{\alpha} \beta}(D+A)_{\mu}\varphi^{\dot{\beta}}.
+\label{eqn_SW}
+\end{align}
+Note that the action only contains a $U(1)$ gauge field, so compared to the situation in Donaldson theory, there are no self-interactions of the gauge field with itself.  However, unlike the situation in Donaldson theory, there are now matter multiplets that the gauge field couples to, this complicates the equations of motion (\ref{eqn_SW}) in a different way than gauge self-interactions via the addition of the quadratic term $\tau(\phi\phi)$ as well as the coupling between $A$ and $\varphi$ in the second equation.
+
+\subsection{The Moduli Space and the Invariants}
+With a choice of spin structure $W^{\pm}$ (labeled by a line bundle $L$ or its first chern class $c_{1}(L)$) we expect a whole moduli space ${\cal M}_{SW,L}$ of solutions to (\ref{eqn_SW}) inside of the space of fields ${\cal F}$ roughly consisting of fields $(A,\phi)$ up to gauge transformations.  In fact, we can compute the virtual dimension to be \footnote{When this dimension is negative there are generically no solutions.}
+\begin{align*}
+\dim {\cal M}_{SW,L}=&c_{1}(L)^2-\frac{1}{4}\left(2\chi_{M}+3\sigma_{M}\right)
+\end{align*}
+where $c_{1}(L)^2$ is defined to be the integer $\int_{[M]}c_{1}(L)^2 \in \mathbb{Z}$.  Because the equations of motion depend on the metric chosen, so does the embedding of the moduli space $\dim {\cal M}_{SW,L}$ inside of ${\cal F}$.  But once again a cobordism can be constructed in ${\cal F}$ that shows the homology class $[\dim {\cal M}_{SW,L}]$ does not depend on the choice of metric $g$ chosen on $M$ as long as $b_{+}>1$ so no singularities arise.  From this point of view we can construct topological invariants just as in Donaldson theory.  From the field theoretic point of view, the new twisted theory is equipped with a BRST charge $Q$ from which we can use to define a class of topological correlation functions that are independent of the $U(1)$ gauge coupling $e$.  Thus, just as with Donaldson theory we can take the limit $e \rightarrow 0$ to derive topological invariants as integrals over the (new) moduli space ${\cal M}_{SW,L}$.  Just as the Donaldson polynomial invariants $Q_{E}$ were dependent on the bundle $E$ chosen, and could be labeled by the second chern class $c_{2}(E)$ (or equivalently the chern number), the Seiberg witten invariants depend on the $\text{Spin}^{c}$ bundles $W^{\pm}$ chosen and are dependent on the first chern class of the determinant bundle $c_{1}(L) \in H^{2}(M;\mathbb{Z})$.
+
+\vspace{5mm}
+
+\noindent Although the equations of motion (\ref{eqn_SW}) appear no more easily solvable than the anti-instanton equations of Donaldson theory, the resulting moduli space of solutions has a beautiful property: it is compact; this is definitely not the case for the anti-instanton moduli spaces ${\cal M}_{E}$.  Hence, it is not hard to believe Seiberg-Witten invariants are easier to compute and understand than Donaldson invariants.  The beauty of all of this is that the field theoretic approach shows that Seiberg Witten invariants should be intimately related to Donaldson invariants: we derived the SW equations of motion from looking at the field theory dominating contributions to DW correlation functions in the strong coupling limit.  In fact, the coupling constant $e$ of the SW action (the action involving the $U(1)$ gauge field, monopoles and dyons) behaves like $e \sim 1/g_{YM}$ (where $g_{YM}$ is the coupling constant in the original donaldson theory) via  $S$-duality.  Hence, the $g_{YM} \rightarrow \infty$ limit of $Z[{\cal O}_{DW}]$ in the $S$-dual description is the $e \rightarrow 0$ limit of the SW-action where the path integral localizes around ${\cal M}_{SW}$: so we should be able to express $Z[{\cal O}_{DW}]$ in terms of the (easier to compute) Seiberg-Witten invariants.  Using their field theoretic techniques, Seiberg and Witten were able to formulate an explicit relationship between these two types of invariants.  First of all it is expected that
+\begin{align*}
+\left(\text{Simple-type condition in Donaldson Theory}\right) \longleftrightarrow \left(\text{$SW(c_{1}(L)) \neq 0 \Leftrightarrow \dim {\cal M}_{SW,L}=0$}\right)
+\end{align*}
+Where $SW(w)$ is the Seiberg-Witten invariant (which we have not explicitly defined) corresponding to a spin structure $W^{\pm}$ whose determinant line $L$ has $c_{1}(L)=w$.  We now recall that if a manifold satisfies the simple-type condition in the Donaldson-sense, the Donaldson series of section \ref{sec_Dseries} takes the form
+\begin{align*}
+D(\gamma)=&e^{I(\gamma,\gamma)}\left[r_{1}e^{K_{1}(\gamma)}+\cdots+r_{m}e^{K_{m}(\gamma)}\right],
+\end{align*}
+where 
+\begin{itemize}
+\item $\gamma \in H_{2}(M;\mathbb{R})$ is arbitrary,\\
+\item $I:H_{2}(M;\mathbb{R}) \times H_{2}(M;\mathbb{R}) \rightarrow \mathbb{R}$ is the intersection form,
+\item $r_{i} \in \mathbb{Q}$,\\
+\item $K_{i} \in H^{2}(M;\mathbb{R})$ with $K_{i}(\gamma)=K_{i} \frown \gamma=\int_{\gamma}K_{i} \in \mathbb{R}$.
+\end{itemize}
+Seiberg and Witten found that the classes $K_{i}$ which appear in the Donaldson series are those for which $SW(K_{i}) \neq 0$ and, furthermore,
+\begin{align*}
+r_{i}=2^{\frac{1}{4}\left(18+14b_{1}+18b_{2}^{+}-4b_{2}^{-}\right)}SW(K_{i})
+\end{align*}
+where $b_{1}$ is the first Betti number (before now we assumed $b_{1}=0$ as our manifold was always simply connected, but we could have generalized our results to non-simply connected manifolds).  As of yet, none of these statements are supported by fully rigorous statements although the conjectured relationship between SW invariants and Donaldson invariants is widely considered to be true by mathematicians.
+
+
+
+\section{Appendix}
+\subsection{The Hodge Star Operator}
+If $M$ is an orientable manifold is equipped with a metric $g$ (not necessarily Riemannian) and $\text{dim}(M)=n$, then we have a hodge star operator which maps $k$-forms to $n-k$-forms:
+\begin{align*}
+*:\Omega^k(M) \mapsto \Omega^{n-k}(M)
+\end{align*}
+defined s.t. for two $k$-forms $\xi,\eta \in \Omega^{k}(M)$
+\begin{align*}
+\langle \xi \wedge * \eta \rangle = \left \langle \xi,\eta \right \rangle \text{dvol}
+\end{align*}
+where $\text{dvol} \in \Omega^{n}(M)$ is the normalized volume form on $M$ ($\text{dvol} \wedge * \text{dvol}= \text{dvol}$) which in local coordinates is
+\begin{align*}
+\text{dvol}=\sqrt{|\det g|} dx^{1} \wedge \cdots \wedge dx^{n}.
+\end{align*}
+Indeed, in local coordinates for $\eta \in \Omega^{k}(M)$ we have
+\begin{align*}
+(*\eta)_{\iota_{1},\cdots,\iota_{n-k}}=&\frac{1}{k!}\eta^{j_{1},\cdots,j_{k}}\sqrt{|\text{det}g|}\epsilon_{j_{1},\cdots,j_{k},\iota_{1},\cdots,\iota_{n-k}}
+\end{align*}
+where the indices on $\eta$ were raised using $g$.  Now, if $g$ has signature $s=\text{sgn}(\text{det} g)$ a computation shows
+\begin{align*}
+**\eta=(-1)^{k(n-k)}s\eta
+\end{align*}
+In particular, if $\dim(M)=n=2$ and $k=2$ then 
+\begin{align*}
+*^2=s \textbf{1}
+\end{align*}
+where $\textbf{1}$ is the identity operator on $\Omega^{2}(M)$.  Hence, if $M$ has Lorentzian signature $*^2=-1$ on 2-forms.  In a basis, this is a matrix with eigenvalues $\pm i$ so can only be diagonalized over complexified forms $\Omega^{2}(M) \otimes \mathbb{C}$.  On the other hand, if $M$ has Riemannian signature $*^2=1$ and we can split $\Omega^{2}(M)$ into the $\pm 1$ eigenspaces of $*$, i.e. the self-dual forms and the anti-self-dual forms.
+
+
+\subsection{Reducible Connections and Singularities}
+\label{sec_redconn}
+For this section we will take $G$ to be a (non-abelian) gauge group, $\mathfrak{g}$ its Lie algebra, and $P$ a principal $G$-bundle.  Let $\rho: G \rightarrow \text{Aut}(V)$ be a representation of $G$ and $E=P \times_{\rho} V$ its associated vector bundle.  The reader should keep in mind the case of interest: $G=SU(2)$.  We will assume without proof that the space $\overline{\cal{M}}_{E} \subset \text{Conn}(E)$ (given by the kernel of a differential operator) inherits a smooth structure.  The reader should keep in mind the case of interest: $G=SU(2)$.   Making an analogy with results for finite dimensional manifolds, the only obvious failure of a smooth structure on the quotient $\overline{\cal{M}}_{E}/{\cal G}_{E}$ occurs at points of $\overline{{\cal M}_{E}}$ where the stabilizer subgroup jumps in dimension.  More precisely, recall that (in local coordinates) a gauge transformation $\gamma \in {\cal G}_{E}$ acts on a connection $A$ as
+\begin{align*}
+\gamma \cdot A &= \gamma^*A\\
+&= \gamma A \gamma^{-1} + (d\gamma) \gamma^{-1} 
+\end{align*}
+where this computation is done in a local trivialization of $E$ so that $A \in \Omega^{1}(M,\mathfrak{g})$ (a Lie-algebra valued 1-form) and $\gamma \in \Omega^{0}(M,\mathfrak{g})$ (a Lie-algebra valued function).  Define the stabilizer subgroup of $A$ as
+\begin{align*}
+\text{Stab}(A)=\left \{\gamma \in {\cal G}_{E}: \gamma \cdot A = A \right \} \leq {\cal G}_{E}.
+\end{align*}
+Note that the group $G$ embeds into ${\cal G}_{E}$ as constant gauge transformations; and the action of $G$ is just by conjugation.  Thus, for an arbitrary connection $A$, we have $Z(G) \leq \text{Stab}(A)$ for $Z(G)$ the center of the group $G$.  Furthermore, we expect that for a \textit{generic} connection $\text{Stab}(A)=Z(G)$.  This motivates the following definition.
+
+\begin{definition}
+If $\text{Stab}(A)=Z(G)$ we call the connection $A$ irreducible; if this stabilizer group is larger than $Z(G)$ then we call the connection reducible.
+\end{definition}
+
+\begin{remark}
+In the case $G=SU(2)$, the center $Z(G)=\mathbb{Z}/2$.
+\end{remark}
+
+\noindent We will work with the assumption that a generic connection is irreducible.  Then, the quotient space ${\cal M}_{E}=\overline{{\cal M}}_{E}$ inherits a smooth structure from $\overline{\cal M}_{E}$ except at the points $[A] \in  {\cal M}_{E}$ where $[A]$ is the orbit of some reducible connection.
+
+\vspace{5mm}
+
+\noindent  We now give a alternative description of the stability subgroup that will give a useful condition for irreducibility.  In particular, note that ${\cal G}_{E}=\Gamma(\text{Aut}(E))$: automorphisms of the bundle $E$ are just sections of the bundle $\text{Aut}(E)$. In this fancier language
+\begin{align*}
+\text{Stab}(A)=\left \{\gamma \in \Gamma(\text{Aut}(E)): \gamma \cdot A = A\right\}.
+\end{align*}
+If we would like to understand the lie algebra $\text{Lie}(\text{Stab}(A))$, then we should first understand the lie algebra $\text{Lie}({\cal G}_{E})$ defined as the space  $T_{e}{\cal G}_{E}$ of vectors at the identity $e$. First of all, as ${\cal G}_{E} = \Gamma(\text{Aut}(E))$ a vector $\xi_{\gamma} \in T_{\gamma}{\cal G}_{E}$ is naturally defined as a vector field $\tilde{\xi}$ along the section $\gamma$ such that $\pi_{*}\tilde{\xi}=0$ (the vector field is vertical \footnote{An infinitesimal deformation of a section to another section is a vertical deformation}), where $\pi:E \rightarrow M$ is the projection map.  Thus, an element of $\text{Lie}({\cal G}_{E})$ is a vertical vector field along the identity section of $\text{Aut}(V)$.  Note that as the fibers of $\text{Aut}(E)$ are acted on by $G$, a vertical vector is naturally identified with an element of the lie algebra $\mathfrak{g}$; so we can think of such a vector field locally as a map $M \rightarrow \mathfrak{g}$.  More precisely, including the ``twist'' of the bundle $E$ we have
+\begin{align*}
+\text{Lie}({\cal G}_{E})=\Gamma(\mathfrak{g}_{E})=\Omega^{0}(M,\mathfrak{g}_{E})
+\end{align*}
+where $\mathfrak{g}_{E}=P \times_{\rho_*} \mathfrak{g}$ is the vector bundle associated to $P$ via the induced representation $\rho_*:\mathfrak{g} \rightarrow \text{End}(E)$.  Note that the connection $A \in \text{Conn}(E)$ induces a natural connection on $\mathfrak{g}_{E}$
+\begin{align*}
+\nabla_{A}: \Omega^{0}(M,\mathfrak{g}_{E}) \rightarrow \Omega^{1}(M,\mathfrak{g}_{E})
+\end{align*}
+given in a local trivialization by
+\begin{align*}
+\nabla_{A}s=ds+[A,s].
+\end{align*}
+where $A$ is to be thought of as a Lie algebra valued $1$ form and $s$ a local lie algebra valued function. Note that $\nabla_{A}s$ is just an infinitesimal gauge transformation of $A$ by $s$.  Hence, the condition that $\gamma \cdot A = A$ reduces to the infinitesimal condition
+\begin{align*}
+\nabla_{A}s =0
+\end{align*}
+e.g. $s$ is convariantly constant.  Hence,
+\begin{align*}
+\text{Lie}(\text{Stab}(A))=\left \{s \in \Omega^{0}(M,\mathfrak{g}_{E}):\nabla_{A}s=0\right\}.
+\end{align*}
+In the case of $G=SU(2)$ we have $Z(G)=\mathbb{Z}/2$ a discrete group so $0=\text{Lie}(Z(G))$; hence, $A$ is irreducible $\Rightarrow \text{Lie}(\text{Stab}(A))=0$.  Thus, $A$ is reducible if there exists any non-vanishing, covariantly constant section of $\mathfrak{g}_{E}$.
+
+\subsection{Real Representations of the SUSY algebra in Lorentzian vs. Euclidean Signature}
+\label{sec_LorentzvsEuc}
+The extra condition in the Lorentzian case relating left and right moving algebras is vital: it means that our rep $V=S_{L} \oplus \overline{S_{L}}$ representation is a \textit{real} representation, i.e. there exists an antilinear map (complex conjugation)
+\begin{align*}
+\dagger: V \rightarrow V
+\end{align*}
+that commutes with the action of $sl(2,\mathbb{C})$ (is equivariant) and such that $(\dagger)^2=1$.  The real vector space given by the fixed point set of $\dagger$ then forms a representation for $\text{sl}(2,\mathbb{C})$.  In fact, we can write an explicit basis for this vector space given by the (real) supercharges
+\begin{align*}
+Q^{R}_{\alpha}=&\frac{1}{2}\left[Q_{\alpha}\pm (Q_{\alpha})^{\dagger}\right].
+\end{align*}
+On the other hand, there is no such equivariant $\dagger$ map in the Riemannian case (reps of $\text{spin}(4)$) and no relationship between the left and right moving algebras.  Indeed, there are notions of complex conjugation on each of the $su(2)$ subfactors, but there exists no \textit{equivariant} complex conjugation on the full $\text{spin}(4)$ representation.  However, as $SU(2) \cong Sp(1)$, there is an underlying symplectic \footnote{Actually quaternionic.} structure on $S_{L}$ that is preserved by the action of the left $su(2)$ (similarly for the right $su(2)$).  In terms of the supercharge basis these symplectic forms are given by $\epsilon_{\alpha \beta}$ and $\epsilon_{\dot{\alpha}\dot{\beta}}$.  These symplectic structures combine in to a well-defined symplectic structure $\epsilon_{\alpha \beta}\epsilon_{\dot{\alpha}\dot{\beta}}$ on the representation $S_{L} \otimes S_{R}$ that is preserved (equivariant) with respect to the full $spin(4)$ action.  Such representations are called symplectic or pseudo-real \footnote{It is called pseudo-real as it is isomorphic to its complex conjugate using the complex structure from the individual $SU(2)$ factors; however, as we mentioned, this complex structure is not preserved by the full action of $\text{spin}(4)$.}.  
+
+\vspace{5mm}
+
+\noindent We can form an honest real representation of $\text{spin}(4)$ by superficially doubling our pseudo-real representation (taking the direct sum with itself) and choosing a complex structure compatible with the symplectic form on the new representation.  Once can show this complex structure is equivariant with respect to the $\text{spin}(4)$ action, and the fixed point set of the complex conjugation defines a real representation.  Note that this doubling gives ``twice as many fermions.''
+
+\vspace{5mm}
+
+\noindent This is a rather subtle issue that we overlooked when defining the Witten-twist of $\mathcal{N}=2$ SYM theory: the twist is performed in Riemannian signature (where there are twice as many real fermions as in Lorentizian signature).  In perhaps the most sadistic omission in these notes we will only mention that the twist can be performed so that the fermionic field counting works.
+
+
+\subsection{Monpoles Gain an Electric Charge}
+\label{sec_mon_charge}
+The moduli space of monopoles ${\cal M}_{\text{mon}}$ is naively $S^{1} \times \mathbb{R}^{3}$.  The $\mathbb{R}^{3}$ collective coordinates are generated by translations of a monopole solution (monopoles are localized in space as they look like the Dirac monopole from far away), while the circle direction is generated by the global (electric) symmetry group $U(1)_{e}$.  A wavefunction which is non-constant around this circle direction possesses a non-trivial action of $U(1)_{e}$.  Thus, the space ${\cal H}_{\text{mon}}$ can be decomposed into non-trivial representations for $U(1)_{e}$: thus there are wavefunctions with non-zero (integer) electric charge.
+
+\vspace{5mm}
+
+\noindent However, if the original gauge theory has a non-zero $\theta$-angle, then the moduli space is not necessarily a cylinder: $U(1)_{e}$ acts in a twisted manner.  Indeed, let $a \in \mathbb{R}^{3}$ and $\beta \in S^{1}$.  The assumption that we have a compact circle direction generated by $U(1)_{e}$ led to the boundary conditions
+\begin{align*}
+\Psi(a,\beta+2\pi)= \Psi(a,\beta).
+\end{align*}
+But if we include a $\theta$ angle term in the classical Lagrangian (multiplying the Chern Simons term), then one can derive the Noether current generating $U(1)_{e}$ is given by the vector field $\frac{\partial}{\partial \beta}+\theta$.  Hence, we should have
+\begin{align*}
+\Psi(a,\beta+2\pi)=\Psi(a,\beta)e^{i\theta}
+\end{align*} 
+Wavefunctions with this property are linear combinations of those of the form,
+\begin{align*}
+\Psi(a,\beta)=\psi(a)\exp\left[i\left(n_{e}+\frac{\theta}{2\pi}\right)\beta\right],\, n_{e} \in \mathbb{Z}.
+\end{align*}
+The electric charge of such a state is
+\begin{align*}
+q_{e}=n_{e}+\frac{\theta}{2\pi}
+\end{align*}
+If we generalize to moduli spaces of more general magnetic monopoles we will end up with
+\begin{align*}
+q_{e}=n_{e}+\frac{\theta}{2\pi}n_{m}; \,n_{e},n_{m} \in \mathbb{Z}.
+\end{align*}
+
+%\noindent Given that there exists at least one monopole solution (e.g. the t'Hooft-Polykov monopole), it is acted on by the global symmetry group \footnote{The global symmetry group of any action acts naturally on the space of solutions of its equations of motion.} $(\text{Spin(4)} \rtimes V)\times U(1)$ where $V \cong \mathbb{R}^4$ is the subgroup of translations and $U(1)$ is the group of constant $U(1)$ (electric) gauge transformations.  We will assume the action is transitive without proof so that the entire moduli space ${\cal M}_{\text{mon}}$ is generated by the orbit of a given solution.  Because the monopole solutions are localized in space (they look like a Dirac monopole from far away), the action of any translation $V$ generates a new solution, so there are at least $4$ collective coordinates on ${\cal M}_{\text{mon}}$ spanning a subspace $\cong \mathbb{R}^{4}$.  Furthermore, it turns out that (the minimum energy) monopole solutions are rotationally symmetric, so the action of $\text{Spin}(4)$ on such a solution is trivial \footnote{When we go to the supersymmetric version this is not true for the fermionic parts}.
+
+\begin{thebibliography}{9}
+\bibitem{Freed_Uhlenbeck} D. Freed and K. Uhlenbeck, \textit{Instantons and Four-Manifolds}.  Springer, 2nd Ed., 1990.
+\bibitem{Witten_1988} E. Witten, Topological Quantum Field Theory.  Comm. Math. Phys. \textbf{117}, No. 3 (1988), 353.
+\bibitem{Witten_1994} E. Witten, Supersymmetric Yang-Mills Theory on a Four-Manifold. hep-th/9403195.  J. Math Phys. \textbf{35}, 10 (1994), 5101.
+\bibitem{SW} N. Seiberg and E. Witten.  Electric-Magnetic duality, monopole condensation, and confinement in N=2 supersymmetric Yang-Mills theory. hep-th/9407087.
+\bibitem{Olive_Witten} E. Witten and D. Olive.  Supersymmetry algebras that include topological charges.  Phys. Lett. \textbf{78B}, No. 1 (1978), 97.
+\bibitem{Husmoller} D. Husem\"{o}ller. \textit{Elliptic Curves}.  Springer, 1986.
+\bibitem{Iga} K. Iga. What do Topologists want from Seiberg--Witten theory? (A review of four-dimensional topology for physicists). hep-th/0207271
+\bibitem{Moore_Witten} G. Moore and E. Witten.  Integration over the $u$-plane in Donaldson Theory. hep-th/9709193. Adv. Theor. Math. Phys. \textbf{1}, (1998), 298.
+\end{thebibliography}
+
+
+\end{document}
